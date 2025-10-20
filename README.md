@@ -112,4 +112,4 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 
 ## 👨‍💻 Desarrollador
 
-Desarrollado con ❤️ para promover el reciclaje y el cuidado del medio ambiente.
+**MarcosC2119** - Desarrollado con ❤️ para promover el reciclaje y el cuidado del medio ambiente.
