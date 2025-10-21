@@ -9,6 +9,10 @@ root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
+# Configurar tamaño de ventana (aspecto smartphone 18:9)
+from kivy.core.window import Window
+Window.size = (360, 720)  # Smartphone moderno (18:9 aspect ratio - 2:1)
+
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from app.screens.welcome_screen import WelcomeScreen
