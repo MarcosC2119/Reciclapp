@@ -1,58 +1,549 @@
 #:kivy 2.3.1
+#:import utils kivy.utils
+
+# Widget personalizado para cada elemento de la lista de actividad
+<ActivityItem@BoxLayout>:
+    size_hint_y: None
+    height: dp(60)
+    padding: [dp(10), 0]
+    icon_text: ''
+    title_text: ''
+    time_text: ''
+    points_text: ''
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
+    # Icono a la izquierda
+    BoxLayout:
+        size_hint_x: None
+        width: dp(50)
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#e8f5e9')
+            Ellipse:
+                pos: self.center_x - dp(20), self.center_y - dp(20)
+                size: dp(40), dp(40)
+        Label:
+            text: root.icon_text
+            color: utils.get_color_from_hex('#4caf50')
+            font_size: '18sp'
+    
+    # Texto (Título y Hora)
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [dp(10), dp(12)]
+        Label:
+            text: root.title_text
+            font_size: '14sp'
+            color: 0.2, 0.2, 0.2, 1
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+        Label:
+            text: root.time_text
+            font_size: '12sp'
+            color: 0.6, 0.6, 0.6, 1
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+    
+    # Puntos a la derecha
+    BoxLayout:
+        size_hint_x: None
+        width: dp(50)
+        Label:
+            text: root.points_text
+            font_size: '13sp'
+            bold: True
+            color: utils.get_color_from_hex('#4caf50')
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#e8f5e9')
+                RoundedRectangle:
+                    pos: self.center_x - dp(22), self.center_y - dp(10)
+                    size: dp(44), dp(20)
+                    radius: [dp(10)]
+
 
 <HomeScreen>:
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
-        padding: dp(20)
-        spacing: dp(20)
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#f7f7f7')
+            Rectangle:
+                pos: self.pos
+                size: self.size
         
-        # AppBar superior
-        MDTopAppBar:
-            title: "Inicio"
-            elevation: 2
-            md_bg_color: app.theme_cls.primary_color
-            left_action_items: [["menu", lambda x: None]]
-            right_action_items: [["dots-vertical", lambda x: None]]
-        
-        # Contenido principal
-        MDBoxLayout:
+        # 1. BARRA SUPERIOR (HEADER)
+        BoxLayout:
             orientation: 'vertical'
-            padding: dp(20)
-            spacing: dp(20)
-            adaptive_height: False
+            size_hint_y: None
+            height: dp(230)
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#4caf50')
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [0, 0, dp(30), dp(30)]
             
-            # Tarjeta de bienvenida
-            MDCard:
-                orientation: 'vertical'
+            # Contenido del Header: Saludo e iconos
+            BoxLayout:
+                padding: [dp(20), dp(15), dp(20), dp(10)]
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: '¡Hola, Ana! 👋'
+                        font_size: '24sp'
+                        halign: 'left'
+                        text_size: self.size
+                        bold: True
+                        color: 1, 1, 1, 1
+                    Label:
+                        text: '¿Listo para reciclar hoy?'
+                        font_size: '14sp'
+                        halign: 'left'
+                        text_size: self.size
+                        color: 0.95, 0.95, 0.95, 1
+                BoxLayout:
+                    size_hint_x: None
+                    width: dp(60)
+                    spacing: dp(10)
+                    Label:
+                        text: '🌙'
+                        font_size: '20sp'
+                    Label:
+                        text: '🔔'
+                        font_size: '20sp'
+            
+            # Tarjetas de EcoTokens y Racha
+            BoxLayout:
                 padding: dp(20)
-                spacing: dp(10)
+                spacing: dp(15)
+                
+                # Tarjeta EcoTokens
+                BoxLayout:
+                    orientation: 'horizontal'
+                    padding: dp(15)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 0.25
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(15)]
+                    Label:
+                        text: '💰'
+                        size_hint_x: None
+                        width: dp(30)
+                        font_size: '20sp'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Label:
+                            text: 'EcoTokens'
+                            font_size: '14sp'
+                            halign: 'left'
+                            text_size: self.size
+                            color: 1, 1, 1, 1
+                        Label:
+                            text: '1.250'
+                            font_size: '22sp'
+                            bold: True
+                            halign: 'left'
+                            text_size: self.size
+                            color: 1, 1, 1, 1
+                
+                # Tarjeta Racha
+                BoxLayout:
+                    orientation: 'horizontal'
+                    padding: dp(15)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 0.25
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(15)]
+                    Label:
+                        text: '🔥'
+                        size_hint_x: None
+                        width: dp(30)
+                        font_size: '20sp'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Label:
+                            text: 'Racha'
+                            font_size: '14sp'
+                            halign: 'left'
+                            text_size: self.size
+                            color: 1, 1, 1, 1
+                        Label:
+                            text: '23 días'
+                            font_size: '22sp'
+                            bold: True
+                            halign: 'left'
+                            text_size: self.size
+                            color: 1, 1, 1, 1
+        
+        # 2. CONTENIDO PRINCIPAL CON SCROLL
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 0
+            
+            GridLayout:
+                cols: 1
                 size_hint_y: None
-                height: dp(200)
-                elevation: 2
+                height: self.minimum_height
+                padding: [dp(20), dp(20), dp(20), dp(100)]
+                spacing: dp(20)
                 
-                MDLabel:
-                    text: "¡Bienvenido a KivyMD!"
-                    font_style: "H5"
-                    halign: "center"
-                    theme_text_color: "Primary"
+                # TARJETA: PROGRESO SEMANAL
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(160)
+                    padding: dp(20)
+                    spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(25)
+                        Label:
+                            text: '📊'
+                            size_hint_x: None
+                            width: dp(25)
+                        Label:
+                            text: 'Progreso Semanal'
+                            color: 0, 0, 0, 1
+                            bold: True
+                            font_size: '16sp'
+                            halign: 'left'
+                            text_size: self.size
+                    
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(20)
+                        Label:
+                            text: 'Meta: 50 elementos'
+                            color: 0.5, 0.5, 0.5, 1
+                            font_size: '13sp'
+                            halign: 'left'
+                            text_size: self.size
+                        Label:
+                            text: '34/50'
+                            color: 0.3, 0.3, 0.3, 1
+                            font_size: '13sp'
+                            bold: True
+                            halign: 'right'
+                            text_size: self.size
+                    
+                    ProgressBar:
+                        max: 50
+                        value: 34
+                        size_hint_y: None
+                        height: dp(8)
+                    
+                    BoxLayout:
+                        padding: [0, dp(10), 0, 0]
+                        Label:
+                            text: '[b]247[/b]\nTotal reciclado'
+                            markup: True
+                            color: 0, 0, 0, 1
+                            font_size: '12sp'
+                            halign: 'center'
+                        Label:
+                            text: '[b]15.6kg[/b]\nCO₂ evitado'
+                            markup: True
+                            color: 0, 0, 0, 1
+                            font_size: '12sp'
+                            halign: 'center'
+                        Label:
+                            text: '[b]Nivel 15[/b]\nEco Champion'
+                            markup: True
+                            color: 0, 0, 0, 1
+                            font_size: '12sp'
+                            halign: 'center'
                 
-                MDLabel:
-                    text: "Esta es una aplicación de ejemplo con archivos .kv separados"
-                    halign: "center"
-                    theme_text_color: "Secondary"
+                # TARJETA: ACCIONES RÁPIDAS
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(210)
+                    spacing: dp(15)
+                    
+                    Label:
+                        text: 'Acciones Rápidas'
+                        size_hint_y: None
+                        height: dp(20)
+                        color: 0, 0, 0, 1
+                        bold: True
+                        font_size: '16sp'
+                        halign: 'left'
+                        text_size: self.size
+                    
+                    GridLayout:
+                        cols: 2
+                        spacing: dp(15)
+                        
+                        Button:
+                            text: 'Escanear QR'
+                            background_color: 0, 0, 0, 0
+                            on_press: root.escanear_qr()
+                            canvas.before:
+                                Color:
+                                    rgba: utils.get_color_from_hex('#4caf50')
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [dp(15)]
+                        
+                        Button:
+                            text: 'EcoPuntos'
+                            background_color: 0, 0, 0, 0
+                            on_press: root.ir_ecopuntos()
+                            canvas.before:
+                                Color:
+                                    rgba: utils.get_color_from_hex('#2196f3')
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [dp(15)]
+                        
+                        Button:
+                            text: 'Recompensas'
+                            background_color: 0, 0, 0, 0
+                            on_press: root.ir_recompensas()
+                            canvas.before:
+                                Color:
+                                    rgba: utils.get_color_from_hex('#9c27b0')
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [dp(15)]
+                        
+                        Button:
+                            text: 'Logros'
+                            background_color: 0, 0, 0, 0
+                            on_press: root.ir_logros()
+                            canvas.before:
+                                Color:
+                                    rgba: utils.get_color_from_hex('#ffc107')
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [dp(15)]
                 
-                MDRaisedButton:
-                    text: "Click aquí"
-                    pos_hint: {"center_x": 0.5}
-                    on_release: root.on_button_click()
+                # TARJETA: ACTIVIDAD RECIENTE
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: dp(10)
+                    
+                    Label:
+                        text: 'Actividad Reciente'
+                        color: 0, 0, 0, 1
+                        bold: True
+                        font_size: '16sp'
+                        halign: 'left'
+                        text_size: self.size
+                        size_hint_y: None
+                        height: dp(30)
+                    
+                    # Lista de actividades
+                    ActivityItem:
+                        icon_text: '🍾'
+                        title_text: 'Botella de Plástico PET'
+                        time_text: 'hace 2h'
+                        points_text: '+15'
+                    
+                    ActivityItem:
+                        icon_text: '🏆'
+                        title_text: 'Logro desbloqueado: Eco Warrior'
+                        time_text: 'hace 5h'
+                        points_text: '+100'
+                    
+                    ActivityItem:
+                        icon_text: '🎯'
+                        title_text: 'Desafío semanal completado'
+                        time_text: 'hace 1d'
+                        points_text: '+250'
+                
+                # TARJETA: ÚNETE A LA COMUNIDAD
+                BoxLayout:
+                    size_hint_y: None
+                    height: dp(80)
+                    padding: dp(15)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    
+                    Label:
+                        text: '👥'
+                        size_hint_x: None
+                        width: dp(40)
+                        font_size: '28sp'
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Label:
+                            text: 'Únete a la Comunidad'
+                            font_size: '15sp'
+                            bold: True
+                            color: 0.1, 0.1, 0.1, 1
+                            halign: 'left'
+                            text_size: self.size
+                        Label:
+                            text: 'Conecta con otros eco-warriors'
+                            font_size: '13sp'
+                            color: 0.5, 0.5, 0.5, 1
+                            halign: 'left'
+                            text_size: self.size
+                    
+                    Button:
+                        text: 'Explorar'
+                        size_hint_x: None
+                        width: dp(100)
+                        background_color: 0, 0, 0, 0
+                        on_press: root.ir_comunidad()
+                        canvas.before:
+                            Color:
+                                rgba: utils.get_color_from_hex('#4caf50')
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [dp(15)]
+                
+                # TARJETA: IMPACTO
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(180)
+                    padding: dp(20)
+                    spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: utils.get_color_from_hex('#e8f5e9')
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    
+                    Label:
+                        text: '🌱'
+                        font_size: '40sp'
+                        size_hint_y: None
+                        height: dp(50)
+                    
+                    Label:
+                        text: '¡Tu impacto es increíble!'
+                        font_size: '18sp'
+                        bold: True
+                        color: 0.1, 0.1, 0.1, 1
+                    
+                    Label:
+                        text: 'Has ayudado a salvar 15.6kg de CO₂ este mes'
+                        font_size: '14sp'
+                        color: 0.4, 0.4, 0.4, 1
+                        halign: 'center'
+                    
+                    Button:
+                        text: 'Ver Mi Impacto'
+                        size_hint: None, None
+                        size: dp(150), dp(45)
+                        pos_hint: {'center_x': 0.5}
+                        background_color: 0, 0, 0, 0
+                        color: utils.get_color_from_hex('#4caf50')
+                        on_press: root.ver_impacto()
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [dp(22)]
+                            Color:
+                                rgba: utils.get_color_from_hex('#4caf50')
+                            Line:
+                                width: 1.5
+                                rounded_rectangle: (self.x, self.y, self.width, self.height, dp(22))
+        
+        # 3. BARRA DE NAVEGACIÓN INFERIOR
+        FloatLayout:
+            size_hint_y: None
+            height: dp(80)
             
-            # Espacio
-            Widget:
+            # Fondo de la barra de navegación
+            BoxLayout:
+                size_hint_y: None
+                height: dp(65)
+                pos_hint: {'x': 0, 'y': 0}
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [dp(20), dp(20), 0, 0]
+                
+                # Botones de navegación
+                Button:
+                    text: '🏠 Inicio'
+                    background_color: 0, 0, 0, 0
+                    color: utils.get_color_from_hex('#33a961')
+                    bold: True
+                
+                Button:
+                    text: '👥 Comunidad'
+                    background_color: 0, 0, 0, 0
+                    color: 0.5, 0.5, 0.5, 1
+                    on_press: root.ir_comunidad()
+                
+                # Espacio para el botón central flotante
+                Widget:
+                    size_hint_x: 1.2
+                
+                Button:
+                    text: '🏆 Logros'
+                    background_color: 0, 0, 0, 0
+                    color: 0.5, 0.5, 0.5, 1
+                    on_press: root.ir_logros()
+                
+                Button:
+                    text: '👤 Perfil'
+                    background_color: 0, 0, 0, 0
+                    color: 0.5, 0.5, 0.5, 1
+                    on_press: root.ir_perfil()
             
-            # Botón para ir a perfil
-            MDRaisedButton:
-                text: "Ir a Perfil"
-                pos_hint: {"center_x": 0.5}
-                size_hint_x: 0.8
-                on_release: root.go_to_profile()
-
+            # Botón central flotante (Escanear)
+            Button:
+                size_hint: None, None
+                size: dp(60), dp(60)
+                pos_hint: {'center_x': 0.5, 'y': 0.25}
+                text: '📷'
+                font_size: '28sp'
+                background_color: 0, 0, 0, 0
+                on_press: root.escanear_qr()
+                canvas.before:
+                    Color:
+                        rgba: utils.get_color_from_hex('#4caf50')
+                    Ellipse:
+                        pos: self.pos
+                        size: self.size
