@@ -49,7 +49,7 @@ class HomeScreen(MDScreen):
     def ir_comunidad(self):
         """Navegar a Comunidad"""
         print("Navegando a Comunidad")
-        # self.manager.current = 'community'
+        self.manager.current = 'community'
     
     def ir_perfil(self):
         """Navegar a Perfil"""

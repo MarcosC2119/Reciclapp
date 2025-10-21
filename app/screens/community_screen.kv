@@ -1,0 +1,346 @@
+#:kivy 2.3.1
+#:import utils kivy.utils
+
+<CommunityScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#f7f7f7')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        # Cabecera de Comunidad
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: dp(180)
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#4caf50')
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [0, 0, dp(30), dp(30)]
+            
+            BoxLayout:
+                padding: [dp(20), dp(10)]
+                Label:
+                    text: 'Comunidad'
+                    font_size: '24sp'
+                    bold: True
+                    halign: 'left'
+                    text_size: self.size
+                    color: 1, 1, 1, 1
+                BoxLayout:
+                    size_hint_x: None
+                    width: dp(60)
+                    Label:
+                        text: 'N'
+                        color: 1, 1, 1, 1
+                    Label:
+                        text: 'S'
+                        color: 1, 1, 1, 1
+
+            GridLayout:
+                cols: 3
+                padding: [dp(20), dp(10), dp(20), dp(20)]
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: '156'
+                        font_size: '22sp'
+                        bold: True
+                        color: 1, 1, 1, 1
+                    Label:
+                        text: 'Amigos'
+                        font_size: '13sp'
+                        color: .9,.9,.9,1
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: '3'
+                        font_size: '22sp'
+                        bold: True
+                        color: 1, 1, 1, 1
+                    Label:
+                        text: 'Grupos'
+                        font_size: '13sp'
+                        color: .9,.9,.9,1
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: '12'
+                        font_size: '22sp'
+                        bold: True
+                        color: 1, 1, 1, 1
+                    Label:
+                        text: 'Días racha'
+                        font_size: '13sp'
+                        color: .9,.9,.9,1
+
+        # ScrollView para el contenido principal
+        ScrollView:
+            bar_width: 0
+            GridLayout:
+                cols:1
+                size_hint_y: None
+                height: self.minimum_height
+                padding: [dp(15), dp(15), dp(15), dp(100)]
+                spacing: dp(15)
+
+                # Pestañas
+                BoxLayout:
+                    size_hint_y: None
+                    height: dp(40)
+                    spacing: dp(10)
+                    Button:
+                        text: "Feed"
+                        background_color: 0,0,0,0
+                        canvas.before:
+                            Color:
+                                rgba: utils.get_color_from_hex('#4caf50')
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [dp(20)]
+                        color: 1,1,1,1
+                    Button:
+                        text: "Grupos"
+                        background_color: 0,0,0,0
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [dp(20)]
+                        color: .5,.5,.5,1
+                    Button:
+                        text: "Retos"
+                        background_color: 0,0,0,0
+                        canvas.before:
+                            Color:
+                                rgba: 1,1,1,1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [dp(20)]
+                        color: .5,.5,.5,1
+                
+                # Caja para publicar
+                BoxLayout:
+                    size_hint_y: None
+                    height: dp(50)
+                    padding: [dp(10), 0]
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(25)]
+                    Label:
+                        text: "U"
+                        size_hint_x: None
+                        width: dp(40)
+                        color: 0.3, 0.3, 0.3, 1
+                    TextInput:
+                        hint_text: '¿Qué reciclaste hoy?'
+                        background_color: 1,1,1,0
+                        cursor_color: 0,0,0,1
+                        foreground_color: 0.3, 0.3, 0.3, 1
+                        padding: [dp(10), self.height / 2.0 - (self.line_height / 2.0)]
+                    Button:
+                        text: "IMG"
+                        size_hint_x: None
+                        width: dp(40)
+                        background_color: 0,0,0,0
+                        canvas.before:
+                            Color:
+                                rgba: utils.get_color_from_hex('#e8f5e9')
+                            Ellipse:
+                                size: self.size
+                                pos: self.pos
+
+                # Post de Ana
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(220)
+                    padding: dp(15)
+                    spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    
+                    # Cabecera del post
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(40)
+                        Label:
+                            text: 'U'
+                            size_hint_x: None
+                            width: dp(40)
+                            color: 0.3, 0.3, 0.3, 1
+                        BoxLayout:
+                            orientation: 'vertical'
+                            Label:
+                                text: "Ana López [size=12sp][color=66bb6a]Eco Champion[/color][/size]"
+                                markup: True
+                                font_size: '14sp'
+                                bold: True
+                                color: .2,.2,.2,1
+                                halign: 'left'
+                                text_size: self.width, None
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                            Label:
+                                text: "2h • Polanco, CDMX"
+                                font_size: '12sp'
+                                color: .6,.6,.6,1
+                                halign: 'left'
+                                text_size: self.width, None
+                                size_hint_y: None
+                                height: self.texture_size[1]
+
+                    # Contenido del post
+                    Label:
+                        text: "¡Logré mi meta semanal! 25 botellas recicladas y 300 EcoTokens ganados 🌿"
+                        color: .3,.3,.3,1
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
+                    
+                    # Etiqueta
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(30)
+                        Button:
+                            text: 'Semana Verde Completada'
+                            size_hint: None, None
+                            size: dp(200), dp(30)
+                            background_color: 0,0,0,0
+                            canvas.before:
+                                Color:
+                                    rgba: utils.get_color_from_hex('#fff3e0')
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [dp(15)]
+                            color: utils.get_color_from_hex('#ff9800')
+                        Widget:
+
+                    # Pie de post
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(30)
+                        Label:
+                            text: '❤️ 24'
+                            color: .5,.5,.5,1
+                            halign: 'left'
+                            text_size: self.width, None
+                        Label:
+                            text: '💬 5'
+                            color: .5,.5,.5,1
+                            halign: 'center'
+                            text_size: self.width, None
+                        Label:
+                            text: '🔗 3'
+                            color: .5,.5,.5,1
+                            halign: 'center'
+                            text_size: self.width, None
+                        Widget:
+                            size_hint_x: 2
+
+                # Post de Carlos
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(290)
+                    padding: dp(15)
+                    spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(40)
+                        Label:
+                            text: 'U'
+                            size_hint_x: None
+                            width: dp(40)
+                            color: 0.3, 0.3, 0.3, 1
+                        BoxLayout:
+                            orientation: 'vertical'
+                            Label:
+                                text: "Carlos Mendoza [size=12sp][color=66bb6a]Green Warrior[/color][/size]"
+                                markup: True
+                                font_size: '14sp'
+                                bold: True
+                                color: .2,.2,.2,1
+                                halign: 'left'
+                                text_size: self.width, None
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                            Label:
+                                text: "4h • Roma Norte, CDMX"
+                                font_size: '12sp'
+                                color: .6,.6,.6,1
+                                halign: 'left'
+                                text_size: self.width, None
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                    Label:
+                        text: "Encontré un nuevo EcoPunto súper organizado. ¡Recomendado para todos!"
+                        color: .3,.3,.3,1
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
+                    
+                    # Placeholder imagen
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(150)
+                        canvas.before:
+                            Color:
+                                rgba: utils.get_color_from_hex('#eeeeee')
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [dp(15)]
+                        Label:
+                            text: "📷"
+                            font_size: '40sp'
+                            color: .7,.7,.7,1
+                    
+                    # Pie de post
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(30)
+                        Label:
+                            text: '❤️ 18'
+                            color: .5,.5,.5,1
+                            halign: 'left'
+                            text_size: self.width, None
+                        Label:
+                            text: '💬 12'
+                            color: .5,.5,.5,1
+                            halign: 'center'
+                            text_size: self.width, None
+                        Label:
+                            text: '🔗 6'
+                            color: .5,.5,.5,1
+                            halign: 'center'
+                            text_size: self.width, None
+                        Widget:
+                            size_hint_x: 2

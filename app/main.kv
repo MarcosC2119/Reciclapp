@@ -3,20 +3,85 @@
 #:import LoginScreen app.screens.login_screen
 #:import HomeScreen app.screens.home_screen
 #:import ProfileScreen app.screens.profile_screen
+#:import CommunityScreen app.screens.community_screen
+#:import utils kivy.utils
 
-# ScreenManager principal
-ScreenManager:
-    id: screen_manager
+# Layout principal con navbar
+FloatLayout:
+    # ScreenManager que ocupa toda la pantalla
+    ScreenManager:
+        id: screen_manager
+
+        WelcomeScreen:
+            name: 'welcome'
+
+        LoginScreen:
+            name: 'login'
+
+        HomeScreen:
+            name: 'home'
+
+        ProfileScreen:
+            name: 'profile'
+
+        CommunityScreen:
+            name: 'community'
     
-    WelcomeScreen:
-        name: 'welcome'
-    
-    LoginScreen:
-        name: 'login'
-    
-    HomeScreen:
-        name: 'home'
-    
-    ProfileScreen:
-        name: 'profile'
+    # Navbar inferior estático (solo visible en ciertas pantallas)
+    FloatLayout:
+        id: bottom_nav
+        size_hint_y: None
+        height: dp(80)
+        pos_hint: {'x': 0, 'bottom': 1}
+        y: 0
+        opacity: 1 if screen_manager.current in ['home', 'community', 'profile'] else 0
+        disabled: screen_manager.current not in ['home', 'community', 'profile']
+        
+        BoxLayout:
+            size_hint_y: None
+            height: dp(65)
+            pos_hint: {'x': 0, 'y': 0}
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [dp(20), dp(20), 0, 0]
+            Button:
+                text: 'Inicio'
+                background_color: 0,0,0,0
+                color: utils.get_color_from_hex('#33a961') if screen_manager.current == 'home' else (0.5, 0.5, 0.5, 1)
+                on_press: screen_manager.current = 'home'
+            Button:
+                text: 'Comunidad'
+                background_color: 0,0,0,0
+                color: utils.get_color_from_hex('#33a961') if screen_manager.current == 'community' else (0.5, 0.5, 0.5, 1)
+                on_press: screen_manager.current = 'community'
+            Widget:
+                size_hint_x: 1.2
+            Button:
+                text: 'Logros'
+                background_color: 0,0,0,0
+                color: 0.5, 0.5, 0.5, 1
+            Button:
+                text: 'Perfil'
+                background_color: 0,0,0,0
+                color: utils.get_color_from_hex('#33a961') if screen_manager.current == 'profile' else (0.5, 0.5, 0.5, 1)
+                on_press: screen_manager.current = 'profile'
+        
+        Button:
+            size_hint: None, None
+            size: dp(60), dp(60)
+            pos_hint: {'center_x': 0.5, 'y': 0.25}
+            text: 'QR'
+            font_size: '20sp'
+            bold: True
+            background_color: 0,0,0,0
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#4caf50')
+                Ellipse:
+                    pos: self.pos
+                    size: self.size
 
