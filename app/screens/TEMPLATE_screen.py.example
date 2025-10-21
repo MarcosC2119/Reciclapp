@@ -1,0 +1,32 @@
+"""
+TEMPLATE - Pantalla de [Nombre]
+Copia este archivo y renómbralo siguiendo el patrón: nombre_screen.py
+"""
+from kivymd.uix.screen import MDScreen
+from kivy.lang import Builder
+
+# Cargar el diseño KV de esta pantalla
+# IMPORTANTE: Actualiza el nombre del archivo .kv
+Builder.load_file('app/screens/TEMPLATE_screen.kv')
+
+
+class TEMPLATEScreen(MDScreen):
+    """
+    Pantalla de [Descripción]
+    
+    Esta clase maneja la lógica de la pantalla.
+    El diseño visual está en el archivo .kv correspondiente.
+    """
+    
+    def on_enter(self):
+        """Llamado cuando se entra a la pantalla"""
+        pass
+    
+    def on_leave(self):
+        """Llamado cuando se sale de la pantalla"""
+        pass
+    
+    def example_method(self):
+        """Método de ejemplo"""
+        print("Método ejecutado")
+

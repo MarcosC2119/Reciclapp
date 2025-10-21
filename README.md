@@ -1,115 +1,176 @@
-# 🌱 Reciclapp
+# Proyecto KivyMD
 
-Aplicación móvil de reciclaje desarrollada con **KivyMD** y **Python**.
-
-## 📱 Descripción
-
-Reciclapp es una aplicación móvil que facilita el proceso de reciclaje, permitiendo a los usuarios:
-- Iniciar sesión de forma segura
-- Registrar materiales reciclables
-- Ver estadísticas de reciclaje
-- Gestionar su perfil de usuario
-
-## 🛠️ Tecnologías
-
-- **Frontend**: KivyMD (Material Design)
-- **Backend**: Python
-- **Base de datos**: MySQL
-- **Arquitectura**: MVC (Model-View-Controller)
+Proyecto base para desarrollo de aplicaciones con KivyMD en Python, con separación de diseño (.kv) y lógica (.py).
 
 ## 📁 Estructura del Proyecto
 
 ```
 REPO/
-├── app/                    # Código principal de la aplicación
-│   ├── screens/            # Pantallas de la app
-│   ├── components/         # Componentes reutilizables
-│   ├── database/          # Gestión de base de datos
-│   ├── auth/              # Autenticación
-│   ├── styles/            # Estilos y temas
-│   └── utils/             # Utilidades
-├── assets/                # Recursos estáticos
-│   ├── images/            # Imágenes
-│   ├── icons/             # Iconos
-│   └── sounds/            # Sonidos
-├── config/                # Configuración
-├── tests/                 # Pruebas unitarias
-├── entorno/               # Entorno virtual
-├── requirements.txt       # Dependencias
-└── README.md             # Este archivo
+├── app/
+│   ├── __init__.py
+│   ├── main.py                      # Aplicación principal
+│   ├── main.kv                      # Diseño principal y ScreenManager
+│   ├── screens/                     # Pantallas de la aplicación
+│   │   ├── __init__.py
+│   │   ├── home_screen.py          # Lógica de pantalla de inicio
+│   │   ├── home_screen.kv          # Diseño de pantalla de inicio
+│   │   ├── profile_screen.py       # Lógica de pantalla de perfil
+│   │   ├── profile_screen.kv       # Diseño de pantalla de perfil
+│   │   ├── TEMPLATE_screen.py.example    # Template para nuevas pantallas
+│   │   └── TEMPLATE_screen.kv.example    # Template para diseños
+│   ├── components/                  # Componentes reutilizables
+│   │   └── __init__.py
+│   └── assets/                      # Recursos (imágenes, iconos, etc.)
+│       ├── images/
+│       └── icons/
+├── entorno/                         # Entorno virtual de Python
+├── requirements.txt                 # Dependencias del proyecto
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
+
+## 🎨 Arquitectura: Separación de Diseño y Lógica
+
+Este proyecto sigue el patrón de **separación de responsabilidades**:
+
+- **Archivos `.py`**: Contienen la lógica de negocio, métodos y funcionalidad
+- **Archivos `.kv`**: Contienen el diseño visual, layout y estilos
+
+### Ventajas de esta arquitectura:
+- ✅ Código más limpio y organizado
+- ✅ Fácil mantenimiento
+- ✅ Diseñadores pueden trabajar en .kv sin tocar Python
+- ✅ Reutilización de componentes
+- ✅ Testing más sencillo
 
 ## 🚀 Instalación
 
-1. **Clonar el repositorio**:
-   ```bash
-   git clone <url-del-repositorio>
-   cd Reciclapp
-   ```
+### 1. Activar el entorno virtual
 
-2. **Activar el entorno virtual**:
    ```bash
-   entorno\Scripts\Activate.ps1
-   ```
+# Windows
+.\entorno\Scripts\activate
 
-3. **Instalar dependencias**:
+# Linux/Mac
+source entorno/bin/activate
+```
+
+### 2. Instalar dependencias (si es necesario)
+
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Configurar la base de datos**:
-   - Editar `config/database_config.py`
-   - Configurar credenciales de MySQL
+## ▶️ Ejecutar la Aplicación
 
-5. **Ejecutar la aplicación**:
    ```bash
    python app/main.py
    ```
 
-## 📋 Dependencias
+## 📝 Cómo Crear una Nueva Pantalla
 
-- kivy>=2.2.0
-- kivymd>=1.2.0
-- mysql-connector-python>=8.0.0
-- Pillow>=9.0.0
-- requests>=2.28.0
-- python-dotenv>=0.19.0
+### Opción 1: Usar los templates
 
-## 🔧 Configuración
+1. Copia los archivos template:
+   ```bash
+   # Copia el archivo Python
+   cp app/screens/TEMPLATE_screen.py.example app/screens/mi_pantalla_screen.py
+   
+   # Copia el archivo KV
+   cp app/screens/TEMPLATE_screen.kv.example app/screens/mi_pantalla_screen.kv
+   ```
 
-### Base de Datos
-Edita el archivo `config/database_config.py` con tus credenciales de MySQL:
+2. Edita `mi_pantalla_screen.py`:
+   - Reemplaza `TEMPLATE` con el nombre de tu pantalla
+   - Actualiza el nombre del archivo .kv a cargar
+   - Implementa tu lógica
 
+3. Edita `mi_pantalla_screen.kv`:
+   - Reemplaza `<TEMPLATEScreen>` con `<MiPantallaScreen>`
+   - Diseña tu interfaz
+
+4. Registra la pantalla en `app/screens/__init__.py`:
+   ```python
+   from app.screens.mi_pantalla_screen import MiPantallaScreen
+   
+   __all__ = ['HomeScreen', 'ProfileScreen', 'MiPantallaScreen']
+   ```
+
+5. Añade la pantalla al ScreenManager en `app/main.kv`:
+   ```kv
+   #:import MiPantallaScreen app.screens.mi_pantalla_screen
+   
+   ScreenManager:
+       MiPantallaScreen:
+           name: 'mi_pantalla'
+   ```
+
+### Opción 2: Desde cero
+
+**Archivo Python** (`app/screens/ejemplo_screen.py`):
 ```python
-DB_CONFIG = {
-    'host': 'tu_servidor',
-    'database': 'reciclapp_db',
-    'user': 'tu_usuario',
-    'password': 'tu_contraseña',
-    'port': 3306
-}
+from kivymd.uix.screen import MDScreen
+from kivy.lang import Builder
+
+Builder.load_file('app/screens/ejemplo_screen.kv')
+
+class EjemploScreen(MDScreen):
+    def mi_metodo(self):
+        print("Hola desde EjemploScreen")
 ```
 
-## 📱 Pantallas
+**Archivo KV** (`app/screens/ejemplo_screen.kv`):
+```kv
+#:kivy 2.3.1
 
-- **Login**: Inicio de sesión de usuarios
-- **Home**: Dashboard principal
-- **Profile**: Perfil de usuario
-- **Recycling**: Gestión de reciclaje
-- **Stats**: Estadísticas de reciclaje
+<EjemploScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        
+        MDLabel:
+            text: "Mi Pantalla"
+            halign: "center"
+```
 
-## 🤝 Contribuir
+## 🎯 Navegación entre Pantallas
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+En el archivo `.py`:
+```python
+# Navegar a otra pantalla
+self.manager.current = 'nombre_pantalla'
+```
+
+En el archivo `.kv`:
+```kv
+MDRaisedButton:
+    text: "Ir a Perfil"
+    on_release: app.root.current = 'profile'
+```
+
+## 🎨 Componentes Principales de KivyMD
+
+- `MDScreen`: Pantalla base
+- `MDBoxLayout`: Layout en caja (vertical/horizontal)
+- `MDLabel`: Texto
+- `MDRaisedButton`: Botón elevado
+- `MDCard`: Tarjeta Material Design
+- `MDTopAppBar`: Barra superior
+- `MDIcon`: Iconos Material Design
+- `ScrollView`: Área desplazable
+
+## 📚 Recursos
+
+- [Documentación KivyMD](https://kivymd.readthedocs.io/)
+- [Galería de Componentes KivyMD](https://kivymd.readthedocs.io/en/latest/components/)
+- [Lenguaje Kivy (.kv)](https://kivy.org/doc/stable/guide/lang.html)
+
+## 🛠️ Tecnologías
+
+- **Python 3.12**
+- **Kivy 2.3.1** - Framework para desarrollo de aplicaciones
+- **KivyMD 1.2.0** - Componentes Material Design para Kivy
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
-
-## 👨‍💻 Desarrollador
-
-**MarcosC2119** - Desarrollado con ❤️ para promover el reciclaje y el cuidado del medio ambiente.
+Ver archivo LICENSE para más detalles.

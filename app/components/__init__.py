@@ -1,1 +1,4 @@
-# Componentes reutilizables
+"""
+Componentes reutilizables de la aplicación
+"""
+

@@ -1,0 +1,112 @@
+#:kivy 2.3.1
+
+<ProfileScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        
+        # AppBar superior
+        MDTopAppBar:
+            title: "Perfil"
+            elevation: 2
+            md_bg_color: app.theme_cls.primary_color
+            left_action_items: [["arrow-left", lambda x: root.go_back()]]
+            right_action_items: [["account-edit", lambda x: root.on_edit_profile()]]
+        
+        # Contenido del perfil
+        ScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(20)
+                adaptive_height: True
+                
+                # Avatar y nombre
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(10)
+                    size_hint_y: None
+                    height: dp(200)
+                    
+                    MDIcon:
+                        icon: "account-circle"
+                        halign: "center"
+                        font_size: dp(100)
+                        theme_text_color: "Primary"
+                    
+                    MDLabel:
+                        text: "Usuario de Ejemplo"
+                        font_style: "H6"
+                        halign: "center"
+                        theme_text_color: "Primary"
+                    
+                    MDLabel:
+                        text: "usuario@ejemplo.com"
+                        halign: "center"
+                        theme_text_color: "Secondary"
+                
+                # Información del perfil
+                MDCard:
+                    orientation: 'vertical'
+                    padding: dp(20)
+                    spacing: dp(15)
+                    size_hint_y: None
+                    height: dp(250)
+                    elevation: 2
+                    
+                    MDLabel:
+                        text: "Información Personal"
+                        font_style: "H6"
+                        theme_text_color: "Primary"
+                    
+                    MDBoxLayout:
+                        orientation: 'horizontal'
+                        spacing: dp(10)
+                        size_hint_y: None
+                        height: dp(30)
+                        
+                        MDIcon:
+                            icon: "phone"
+                            size_hint_x: None
+                            width: dp(30)
+                        
+                        MDLabel:
+                            text: "+1 234 567 8900"
+                            theme_text_color: "Secondary"
+                    
+                    MDBoxLayout:
+                        orientation: 'horizontal'
+                        spacing: dp(10)
+                        size_hint_y: None
+                        height: dp(30)
+                        
+                        MDIcon:
+                            icon: "map-marker"
+                            size_hint_x: None
+                            width: dp(30)
+                        
+                        MDLabel:
+                            text: "Ciudad, País"
+                            theme_text_color: "Secondary"
+                    
+                    MDBoxLayout:
+                        orientation: 'horizontal'
+                        spacing: dp(10)
+                        size_hint_y: None
+                        height: dp(30)
+                        
+                        MDIcon:
+                            icon: "calendar"
+                            size_hint_x: None
+                            width: dp(30)
+                        
+                        MDLabel:
+                            text: "Miembro desde: Octubre 2025"
+                            theme_text_color: "Secondary"
+                
+                # Botón de acción
+                MDRaisedButton:
+                    text: "Volver al Inicio"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 0.8
+                    on_release: root.go_back()
+

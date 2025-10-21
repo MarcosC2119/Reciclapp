@@ -1,4 +1,4 @@
-# Archivos a ignorar en Git
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -29,11 +29,12 @@ env.bak/
 venv.bak/
 entorno/
 
-# IDE
+# IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
+.DS_Store
 
 # Logs
 *.log
@@ -45,3 +46,10 @@ entorno/
 # Archivos de configuración local
 .env
 config_local.py
+
+# Kivy
+*.pyc
+.buildozer/
+bin/
+*.apk
+*.aab

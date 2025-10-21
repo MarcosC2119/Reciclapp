@@ -1,132 +1,45 @@
 """
 Pantalla de inicio de sesión
-Implementa autenticación de usuarios con KivyMD
 """
-
 from kivymd.uix.screen import MDScreen
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.card import MDCard
-from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDRaisedButton
-from kivymd.uix.label import MDLabel
-from kivymd.uix.toolbar import MDTopAppBar
-from kivy.metrics import dp
+from kivy.lang import Builder
+
+# Cargar el diseño KV de esta pantalla
+Builder.load_file('app/screens/login_screen.kv')
+
 
 class LoginScreen(MDScreen):
-    """Pantalla de inicio de sesión"""
+    """Pantalla de login para autenticación de usuarios"""
     
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.build_ui()
+    def toggle_password(self):
+        """Alternar visibilidad de la contraseña"""
+        password_input = self.ids.password_input
+        password_input.password = not password_input.password
     
-    def build_ui(self):
-        """Construir la interfaz de usuario"""
-        # Layout principal
-        main_layout = MDBoxLayout(
-            orientation='vertical',
-            padding=dp(20),
-            spacing=dp(20),
-            adaptive_height=True
-        )
-        
-        # Toolbar superior
-        toolbar = MDTopAppBar(
-            title="Reciclapp",
-            elevation=2,
-            md_bg_color=self.theme_cls.primary_color
-        )
-        main_layout.add_widget(toolbar)
-        
-        # Card de login
-        login_card = MDCard(
-            size_hint=(None, None),
-            size=(dp(300), dp(400)),
-            pos_hint={'center_x': 0.5, 'center_y': 0.5},
-            elevation=4,
-            radius=[15, 15, 15, 15]
-        )
-        
-        # Layout del card
-        card_layout = MDBoxLayout(
-            orientation='vertical',
-            padding=dp(20),
-            spacing=dp(20)
-        )
-        
-        # Título
-        title = MDLabel(
-            text="Iniciar Sesión",
-            theme_text_color="Primary",
-            size_hint_y=None,
-            height=dp(40),
-            halign="center",
-            font_style="H4"
-        )
-        card_layout.add_widget(title)
-        
-        # Campo de email
-        self.email_field = MDTextField(
-            hint_text="Correo electrónico",
-            helper_text="Ingresa tu email",
-            helper_text_mode="on_focus",
-            size_hint_y=None,
-            height=dp(60),
-            icon_right="email"
-        )
-        card_layout.add_widget(self.email_field)
-        
-        # Campo de contraseña
-        self.password_field = MDTextField(
-            hint_text="Contraseña",
-            helper_text="Ingresa tu contraseña",
-            helper_text_mode="on_focus",
-            password=True,
-            size_hint_y=None,
-            height=dp(60),
-            icon_right="eye-off"
-        )
-        card_layout.add_widget(self.password_field)
-        
-        # Botón de login
-        login_button = MDRaisedButton(
-            text="Iniciar Sesión",
-            size_hint_y=None,
-            height=dp(50),
-            md_bg_color=self.theme_cls.primary_color,
-            on_release=self.login_user
-        )
-        card_layout.add_widget(login_button)
-        
-        # Botón de registro
-        register_button = MDRaisedButton(
-            text="Crear Cuenta",
-            size_hint_y=None,
-            height=dp(50),
-            md_bg_color=self.theme_cls.accent_color,
-            on_release=self.go_to_register
-        )
-        card_layout.add_widget(register_button)
-        
-        login_card.add_widget(card_layout)
-        main_layout.add_widget(login_card)
-        
-        self.add_widget(main_layout)
+    def iniciar_sesion(self):
+        """Procesar el inicio de sesión"""
+        email = self.ids.email_input.text
+        password = self.ids.password_input.text
+        print(f"Iniciar sesión - Email: {email}")
+        # Aquí puedes agregar la lógica de autenticación
+        # Por ahora navega a home después de login
+        self.manager.current = 'home'
     
-    def login_user(self, instance):
-        """Manejar el inicio de sesión"""
-        email = self.email_field.text
-        password = self.password_field.text
-        
-        if email and password:
-            # Aquí iría la lógica de autenticación
-            print(f"Login intentado: {email}")
-            # Cambiar a pantalla principal
-            self.manager.current = 'home'
-        else:
-            # Mostrar error
-            print("Por favor completa todos los campos")
+    def continuar_google(self):
+        """Iniciar sesión con Google"""
+        print("Continuar con Google")
+        # Aquí puedes agregar la lógica de Google Sign-In
+        # Por ahora navega a home
+        self.manager.current = 'home'
     
-    def go_to_register(self, instance):
-        """Ir a pantalla de registro"""
+    def ir_registro(self):
+        """Navegar a la pantalla de registro"""
         print("Ir a registro")
-        # Aquí cambiarías a la pantalla de registro
+        # Aquí puedes navegar a la pantalla de registro
+        # self.manager.current = 'registro'
+    
+    def volver(self):
+        """Volver a la pantalla de bienvenida"""
+        print("Volver a welcome")
+        self.manager.current = 'welcome'
+

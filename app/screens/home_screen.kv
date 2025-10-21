@@ -1,0 +1,58 @@
+#:kivy 2.3.1
+
+<HomeScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(20)
+        spacing: dp(20)
+        
+        # AppBar superior
+        MDTopAppBar:
+            title: "Inicio"
+            elevation: 2
+            md_bg_color: app.theme_cls.primary_color
+            left_action_items: [["menu", lambda x: None]]
+            right_action_items: [["dots-vertical", lambda x: None]]
+        
+        # Contenido principal
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: dp(20)
+            spacing: dp(20)
+            adaptive_height: False
+            
+            # Tarjeta de bienvenida
+            MDCard:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(10)
+                size_hint_y: None
+                height: dp(200)
+                elevation: 2
+                
+                MDLabel:
+                    text: "¡Bienvenido a KivyMD!"
+                    font_style: "H5"
+                    halign: "center"
+                    theme_text_color: "Primary"
+                
+                MDLabel:
+                    text: "Esta es una aplicación de ejemplo con archivos .kv separados"
+                    halign: "center"
+                    theme_text_color: "Secondary"
+                
+                MDRaisedButton:
+                    text: "Click aquí"
+                    pos_hint: {"center_x": 0.5}
+                    on_release: root.on_button_click()
+            
+            # Espacio
+            Widget:
+            
+            # Botón para ir a perfil
+            MDRaisedButton:
+                text: "Ir a Perfil"
+                pos_hint: {"center_x": 0.5}
+                size_hint_x: 0.8
+                on_release: root.go_to_profile()
+

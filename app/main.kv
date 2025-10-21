@@ -1,0 +1,22 @@
+#:kivy 2.3.1
+#:import WelcomeScreen app.screens.welcome_screen
+#:import LoginScreen app.screens.login_screen
+#:import HomeScreen app.screens.home_screen
+#:import ProfileScreen app.screens.profile_screen
+
+# ScreenManager principal
+ScreenManager:
+    id: screen_manager
+    
+    WelcomeScreen:
+        name: 'welcome'
+    
+    LoginScreen:
+        name: 'login'
+    
+    HomeScreen:
+        name: 'home'
+    
+    ProfileScreen:
+        name: 'profile'
+
