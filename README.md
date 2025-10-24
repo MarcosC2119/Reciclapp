@@ -65,8 +65,64 @@ source entorno/bin/activate
 ## ▶️ Ejecutar la Aplicación
 
    ```bash
-   python app/main.py
+   python run.py
    ```
+
+## 🧪 Testing
+
+Este proyecto incluye tests automatizados con **pytest**.
+
+### Instalar dependencias de testing
+
+```bash
+pip install -r requirements.txt
+```
+
+### Ejecutar los tests
+
+```bash
+# Todos los tests
+pytest
+
+# Tests con cobertura
+pytest --cov=app --cov-report=html
+
+# Solo tests unitarios
+pytest -m unit
+
+# Tests específicos
+pytest tests/test_screens.py
+```
+
+### Usar el script de tests
+
+```bash
+# Todos los tests
+python run_tests.py --mode all
+
+# Solo unitarios
+python run_tests.py --mode unit
+
+# Con cobertura
+python run_tests.py --mode coverage
+
+# Ejecución rápida
+python run_tests.py --mode quick
+
+# Modo verbose
+python run_tests.py --mode all --verbose
+
+# Archivo específico
+python run_tests.py --file tests/test_screens.py
+```
+
+### Reportes de cobertura
+
+Después de ejecutar con cobertura, abre `htmlcov/index.html` en tu navegador.
+
+📊 **Objetivo de cobertura**: 80%+ en todo el proyecto
+
+Ver más detalles en [tests/README.md](tests/README.md)
 
 ## 📝 Cómo Crear una Nueva Pantalla
 

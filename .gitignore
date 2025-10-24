@@ -53,3 +53,14 @@ config_local.py
 bin/
 *.apk
 *.aab
+
+# Testing (pytest)
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+coverage.xml
+*.cover
+.hypothesis/
+.cache/
+pytest_cache/
