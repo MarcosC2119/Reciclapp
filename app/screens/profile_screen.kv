@@ -1,112 +1,471 @@
 #:kivy 2.3.1
+#:import utils kivy.utils
+
+# --- Widgets Personalizados para la Pantalla de Perfil ---
+
+<ProfileStat@BoxLayout>:
+    orientation: 'vertical'
+    value: ''
+    label: ''
+    Label:
+        text: root.value
+        font_size: '18sp'
+        bold: True
+        color: 1, 1, 1, 1
+    Label:
+        text: root.label
+        font_size: '13sp'
+        color: .9,.9,.9,1
+
+<ProfileTag@Button>:
+    text: ''
+    background_color: 0,0,0,0
+    color: 1,1,1,1
+    size_hint: None, None
+    size: self.texture_size[0] + dp(20), dp(30)
+    canvas.before:
+        Color:
+            rgba: 1,1,1,0.3
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(15)]
+
+<ProfileInfoLine@BoxLayout>:
+    size_hint_y: None
+    height: dp(30)
+    icon: ''
+    text: ''
+    Label:
+        text: root.icon
+        size_hint_x: None
+        width: dp(30)
+        color: .4,.4,.4,1
+    Label:
+        text: root.text
+        color: .3,.3,.3,1
+        halign: 'left'
+        text_size: self.width, None
+
+<ProfileSectionTitle@BoxLayout>:
+    size_hint_y: None
+    height: dp(25)
+    icon: ''
+    title: ''
+    Label:
+        text: root.icon
+        size_hint_x: None
+        width: dp(30)
+        color: .3,.3,.3,1
+    Label:
+        text: root.title
+        font_size: '16sp'
+        bold: True
+        color: .2,.2,.2,1
+        halign: 'left'
+        text_size: self.width, None
+
+# --- Pantalla Principal de Perfil ---
 
 <ProfileScreen>:
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex('#f7f7f7')
+            Rectangle:
+                pos: self.pos
+                size: self.size
         
-        # AppBar superior
-        MDTopAppBar:
-            title: "Perfil"
-            elevation: 2
-            md_bg_color: app.theme_cls.primary_color
-            left_action_items: [["arrow-left", lambda x: root.go_back()]]
-            right_action_items: [["account-edit", lambda x: root.on_edit_profile()]]
+        # Cabecera de Perfil
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: dp(260)
+            padding: [dp(20), dp(10)]
+            spacing: dp(15)
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#4caf50')
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [0, 0, dp(30), dp(30)]
+            
+            # Barra superior (Atrás, Título, Editar)
+            BoxLayout:
+                size_hint_y: None
+                height: dp(40)
+                Button:
+                    text: '←'
+                    size_hint_x: None
+                    width: dp(40)
+                    background_color: 0,0,0,0
+                    color: 1, 1, 1, 1
+                    font_size: '24sp'
+                    on_press: root.volver_home()
+                Label:
+                    text: 'Mi Perfil'
+                    font_size: '20sp'
+                    bold: True
+                    halign: 'center'
+                    text_size: self.width, None
+                    color: 1, 1, 1, 1
+                Button:
+                    text: '✏️'
+                    size_hint_x: None
+                    width: dp(40)
+                    background_color: 0,0,0,0
+                    color: 1, 1, 1, 1
+                    font_size: '20sp'
+            
+            # Info de Usuario
+            BoxLayout:
+                size_hint_y: None
+                height: dp(80)
+                spacing: dp(15)
+                # Avatar
+                Label:
+                    text: 'AM'
+                    size_hint: None, None
+                    size: dp(70), dp(70)
+                    font_size: '28sp'
+                    bold: True
+                    color: 1, 1, 1, 1
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,0.3
+                        Ellipse:
+                            pos: self.pos
+                            size: self.size
+                # Nombre y tags
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: [0, dp(5)]
+                    spacing: dp(5)
+                    Label:
+                        text: 'Ana Martínez'
+                        font_size: '22sp'
+                        bold: True
+                        halign: 'left'
+                        text_size: self.width, None
+                        color: 1, 1, 1, 1
+                    Label:
+                        text: '@ana_eco'
+                        font_size: '14sp'
+                        color: .9,.9,.9,1
+                        halign: 'left'
+                        text_size: self.width, None
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(30)
+                        spacing: dp(5)
+                        ProfileTag:
+                            text: 'Nivel 15'
+                        ProfileTag:
+                            text: 'Eco Champion'
+
+            # Stats
+            GridLayout:
+                cols: 4
+                ProfileStat:
+                    value: '247'
+                    label: 'Reciclados'
+                ProfileStat:
+                    value: '1250'
+                    label: 'Tokens'
+                ProfileStat:
+                    value: '15.6kg'
+                    label: 'CO₂ evitado'
+                ProfileStat:
+                    value: '23'
+                    label: 'Racha'
         
-        # Contenido del perfil
+        # Contenido principal con scroll
         ScrollView:
-            MDBoxLayout:
-                orientation: 'vertical'
-                padding: dp(20)
-                spacing: dp(20)
-                adaptive_height: True
-                
-                # Avatar y nombre
-                MDBoxLayout:
+            bar_width: 0
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                padding: [dp(15), dp(15), dp(15), dp(100)]
+                spacing: dp(15)
+
+                # Tarjeta de información básica
+                BoxLayout:
                     orientation: 'vertical'
-                    spacing: dp(10)
                     size_hint_y: None
-                    height: dp(200)
-                    
-                    MDIcon:
-                        icon: "account-circle"
-                        halign: "center"
-                        font_size: dp(100)
-                        theme_text_color: "Primary"
-                    
-                    MDLabel:
-                        text: "Usuario de Ejemplo"
-                        font_style: "H6"
-                        halign: "center"
-                        theme_text_color: "Primary"
-                    
-                    MDLabel:
-                        text: "usuario@ejemplo.com"
-                        halign: "center"
-                        theme_text_color: "Secondary"
-                
-                # Información del perfil
-                MDCard:
+                    height: dp(120)
+                    padding: dp(20)
+                    spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    ProfileInfoLine:
+                        icon: '📍'
+                        text: 'Ciudad de México'
+                    ProfileInfoLine:
+                        icon: '📅'
+                        text: 'Miembro desde Marzo 2024'
+                    ProfileInfoLine:
+                        icon: '👥'
+                        text: '156 amigos eco'
+
+                # Tarjeta de logros recientes
+                BoxLayout:
                     orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(100)
                     padding: dp(20)
                     spacing: dp(15)
-                    size_hint_y: None
-                    height: dp(250)
-                    elevation: 2
-                    
-                    MDLabel:
-                        text: "Información Personal"
-                        font_style: "H6"
-                        theme_text_color: "Primary"
-                    
-                    MDBoxLayout:
-                        orientation: 'horizontal'
-                        spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    ProfileSectionTitle:
+                        icon: '🏆'
+                        title: 'Logros Recientes'
+                    BoxLayout:
                         size_hint_y: None
                         height: dp(30)
-                        
-                        MDIcon:
-                            icon: "phone"
-                            size_hint_x: None
-                            width: dp(30)
-                        
-                        MDLabel:
-                            text: "+1 234 567 8900"
-                            theme_text_color: "Secondary"
-                    
-                    MDBoxLayout:
-                        orientation: 'horizontal'
                         spacing: dp(10)
-                        size_hint_y: None
-                        height: dp(30)
-                        
-                        MDIcon:
-                            icon: "map-marker"
-                            size_hint_x: None
-                            width: dp(30)
-                        
-                        MDLabel:
-                            text: "Ciudad, País"
-                            theme_text_color: "Secondary"
-                    
-                    MDBoxLayout:
-                        orientation: 'horizontal'
-                        spacing: dp(10)
-                        size_hint_y: None
-                        height: dp(30)
-                        
-                        MDIcon:
-                            icon: "calendar"
-                            size_hint_x: None
-                            width: dp(30)
-                        
-                        MDLabel:
-                            text: "Miembro desde: Octubre 2025"
-                            theme_text_color: "Secondary"
-                
-                # Botón de acción
-                MDRaisedButton:
-                    text: "Volver al Inicio"
-                    pos_hint: {"center_x": 0.5}
-                    size_hint_x: 0.8
-                    on_release: root.go_back()
+                        Button:
+                            text: 'Eco Warrior'
+                            size_hint: None, None
+                            size: self.texture_size[0] + dp(20), dp(30)
+                            background_color: 0,0,0,0
+                            color: utils.get_color_from_hex('#2196f3')
+                            canvas.before:
+                                Color:
+                                    rgba: utils.get_color_from_hex('#e3f2fd')
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [dp(15)]
+                        Button:
+                            text: 'Green Champion'
+                            size_hint: None, None
+                            size: self.texture_size[0] + dp(20), dp(30)
+                            background_color: 0,0,0,0
+                            color: utils.get_color_from_hex('#9c27b0')
+                            canvas.before:
+                                Color:
+                                    rgba: utils.get_color_from_hex('#f3e5f5')
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [dp(15)]
 
+                # Sección de Configuración
+                Label:
+                    text: '⚙️  Configuración'
+                    font_size: '16sp'
+                    bold: True
+                    color: .2,.2,.2,1
+                    halign: 'left'
+                    text_size: self.width, None
+                    size_hint_y: None
+                    height: dp(40)
+
+                # Tarjeta de Apariencia
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(120)
+                    padding: dp(20)
+                    spacing: dp(15)
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    ProfileSectionTitle:
+                        icon: '🎨'
+                        title: 'Apariencia'
+                    BoxLayout:
+                        size_hint_y: None
+                        height: dp(45)
+                        BoxLayout:
+                            orientation: 'vertical'
+                            Label:
+                                text: 'Tema de la aplicación'
+                                font_size: '15sp'
+                                color: .2,.2,.2,1
+                                halign: 'left'
+                                text_size: self.width, None
+                            Label:
+                                text: 'Cambiar entre modo claro y oscuro'
+                                font_size: '12sp'
+                                color: .6,.6,.6,1
+                                halign: 'left'
+                                text_size: self.width, None
+                        Label:
+                            text: '🌙'
+                            size_hint_x: None
+                            width: dp(40)
+                            font_size: '20sp'
+                            color: .5,.5,.5,1
+
+                # Tarjeta de Notificaciones
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(180)
+                    padding: dp(20)
+                    spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    ProfileSectionTitle:
+                        icon: '🔔'
+                        title: 'Notificaciones'
+                    Label:
+                        text: 'Recordatorios de reciclaje'
+                        font_size: '14sp'
+                        color: .4,.4,.4,1
+                        halign: 'left'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: dp(30)
+                    Label:
+                        text: 'Logros y recompensas'
+                        font_size: '14sp'
+                        color: .4,.4,.4,1
+                        halign: 'left'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: dp(30)
+                    Label:
+                        text: 'Actualizaciones de la comunidad'
+                        font_size: '14sp'
+                        color: .4,.4,.4,1
+                        halign: 'left'
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: dp(30)
+
+                # Tarjeta de Cuenta
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(180)
+                    padding: dp(20)
+                    spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    ProfileSectionTitle:
+                        icon: '👤'
+                        title: 'Cuenta'
+                    Button:
+                        text: 'Información personal  ›'
+                        size_hint_y: None
+                        height: dp(40)
+                        background_color: 0,0,0,0
+                        color: .3,.3,.3,1
+                        halign: 'left'
+                        text_size: self.width - dp(20), None
+                        padding: [dp(10), 0]
+                    Button:
+                        text: 'Configuración de blockchain  ›'
+                        size_hint_y: None
+                        height: dp(40)
+                        background_color: 0,0,0,0
+                        color: .3,.3,.3,1
+                        halign: 'left'
+                        text_size: self.width - dp(20), None
+                        padding: [dp(10), 0]
+                    Button:
+                        text: 'Portal municipal  ›'
+                        size_hint_y: None
+                        height: dp(40)
+                        background_color: 0,0,0,0
+                        color: .3,.3,.3,1
+                        halign: 'left'
+                        text_size: self.width - dp(20), None
+                        padding: [dp(10), 0]
+
+                # Tarjeta de Soporte
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(180)
+                    padding: dp(20)
+                    spacing: dp(10)
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                    ProfileSectionTitle:
+                        icon: '❓'
+                        title: 'Soporte'
+                    Button:
+                        text: 'Centro de ayuda  ›'
+                        size_hint_y: None
+                        height: dp(40)
+                        background_color: 0,0,0,0
+                        color: .3,.3,.3,1
+                        halign: 'left'
+                        text_size: self.width - dp(20), None
+                        padding: [dp(10), 0]
+                    Button:
+                        text: 'Contactar soporte  ›'
+                        size_hint_y: None
+                        height: dp(40)
+                        background_color: 0,0,0,0
+                        color: .3,.3,.3,1
+                        halign: 'left'
+                        text_size: self.width - dp(20), None
+                        padding: [dp(10), 0]
+                    Button:
+                        text: 'Acerca de Reciclapp  ›'
+                        size_hint_y: None
+                        height: dp(40)
+                        background_color: 0,0,0,0
+                        color: .3,.3,.3,1
+                        halign: 'left'
+                        text_size: self.width - dp(20), None
+                        padding: [dp(10), 0]
+                
+                # Botón de Cerrar Sesión
+                Button:
+                    text: '🚪  Cerrar Sesión'
+                    size_hint_y: None
+                    height: dp(50)
+                    background_color: 0,0,0,0
+                    color: utils.get_color_from_hex('#f44336')
+                    bold: True
+                    font_size: '15sp'
+                    on_press: root.cerrar_sesion()
+                    canvas.before:
+                        Color:
+                            rgba: 1,1,1,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(20)]
+                        Color:
+                            rgba: utils.get_color_from_hex('#f44336')
+                        Line:
+                            width: 1.5
+                            rounded_rectangle: (self.x, self.y, self.width, self.height, dp(20))

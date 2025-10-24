@@ -20,6 +20,7 @@ from app.screens.login_screen import LoginScreen
 from app.screens.home_screen import HomeScreen
 from app.screens.profile_screen import ProfileScreen
 from app.screens.community_screen import CommunityScreen
+from app.screens.achievements_screen import AchievementsScreen
 
 
 class MainApp(MDApp):

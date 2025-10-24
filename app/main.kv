@@ -4,6 +4,7 @@
 #:import HomeScreen app.screens.home_screen
 #:import ProfileScreen app.screens.profile_screen
 #:import CommunityScreen app.screens.community_screen
+#:import AchievementsScreen app.screens.achievements_screen
 #:import utils kivy.utils
 
 # Layout principal con navbar
@@ -26,6 +27,9 @@ FloatLayout:
 
         CommunityScreen:
             name: 'community'
+
+        AchievementsScreen:
+            name: 'achievements'
     
     # Navbar inferior estático (solo visible en ciertas pantallas)
     FloatLayout:
@@ -34,8 +38,8 @@ FloatLayout:
         height: dp(80)
         pos_hint: {'x': 0, 'bottom': 1}
         y: 0
-        opacity: 1 if screen_manager.current in ['home', 'community', 'profile'] else 0
-        disabled: screen_manager.current not in ['home', 'community', 'profile']
+        opacity: 1 if screen_manager.current in ['home', 'community', 'achievements', 'profile'] else 0
+        disabled: screen_manager.current not in ['home', 'community', 'achievements', 'profile']
         
         BoxLayout:
             size_hint_y: None
@@ -63,7 +67,8 @@ FloatLayout:
             Button:
                 text: 'Logros'
                 background_color: 0,0,0,0
-                color: 0.5, 0.5, 0.5, 1
+                color: utils.get_color_from_hex('#33a961') if screen_manager.current == 'achievements' else (0.5, 0.5, 0.5, 1)
+                on_press: screen_manager.current = 'achievements'
             Button:
                 text: 'Perfil'
                 background_color: 0,0,0,0
