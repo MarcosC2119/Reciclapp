@@ -1,0 +1,459 @@
+#:kivy 2.3.1
+
+<RegisterScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.96, 0.96, 0.96, 1  # Fondo gris muy claro
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
+    FloatLayout:
+        # Botón de retroceso (arriba izquierda)
+        Button:
+            size_hint: None, None
+            size: 40, 40
+            pos_hint: {'x': 0.05, 'top': 0.95}
+            background_normal: ''
+            background_color: 0, 0, 0, 0
+            on_press: root.volver_login()
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.2, 0.2, 1
+                Line:
+                    points: [self.center_x + 4, self.center_y - 6, self.center_x - 4, self.center_y, self.center_x + 4, self.center_y + 6]
+                    width: 2
+        
+        # Botón de tema (arriba derecha)
+        Button:
+            size_hint: None, None
+            size: 40, 40
+            pos_hint: {'right': 0.95, 'top': 0.95}
+            background_normal: ''
+            background_color: 0, 0, 0, 0
+            canvas.before:
+                Color:
+                    rgba: 0.85, 0.92, 0.87, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [20]
+                Color:
+                    rgba: 0.4, 0.75, 0.45, 1
+                Line:
+                    circle: [self.center_x, self.center_y, 8]
+                    width: 1.5
+        
+        # Tarjeta principal centrada
+        ScrollView:
+            size_hint: 0.88, 0.75
+            pos_hint: {'center_x': 0.5, 'center_y': 0.48}
+            
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: 650
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [18]
+                
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 25, 35, 25, 25
+                    spacing: 12
+                    
+                    # Título
+                    Label:
+                        text: 'Crear Cuenta'
+                        font_size: '22sp'
+                        bold: True
+                        color: 0.1, 0.1, 0.1, 1
+                        size_hint_y: None
+                        height: 40
+                        halign: 'center'
+                        text_size: self.size
+                        valign: 'middle'
+                    
+                    # Subtítulo
+                    Label:
+                        text: 'Únete a la comunidad eco-friendly'
+                        font_size: '12sp'
+                        color: 0.5, 0.5, 0.5, 1
+                        size_hint_y: None
+                        height: 20
+                        halign: 'center'
+                    
+                    Widget:
+                        size_hint_y: None
+                        height: 10
+                    
+                    # Campo Nombre Completo
+                    BoxLayout:
+                        orientation: 'vertical'
+                        spacing: 5
+                        size_hint_y: None
+                        height: 68
+                        
+                        Label:
+                            text: 'Nombre Completo'
+                            font_size: '11sp'
+                            color: 0.2, 0.2, 0.2, 1
+                            size_hint_y: None
+                            height: 16
+                            halign: 'left'
+                            text_size: self.size
+                            padding: 3, 0
+                        
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 47
+                            canvas.before:
+                                Color:
+                                    rgba: 0.95, 0.95, 0.95, 1
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [8]
+                            
+                            Widget:
+                                size_hint_x: None
+                                width: 40
+                                canvas:
+                                    Color:
+                                        rgba: 0.6, 0.6, 0.6, 1
+                                    Rectangle:
+                                        pos: self.center_x - 6, self.center_y - 6
+                                        size: 12, 12
+                                    Line:
+                                        points: [self.center_x - 6, self.center_y, self.center_x + 6, self.center_y]
+                                        width: 1.5
+                                    Line:
+                                        points: [self.center_x, self.center_y - 6, self.center_x, self.center_y + 6]
+                                        width: 1.5
+                            
+                            TextInput:
+                                id: name_input
+                                hint_text: 'Juan Pérez'
+                                multiline: False
+                                background_color: 0, 0, 0, 0
+                                foreground_color: 0.2, 0.2, 0.2, 1
+                                hint_text_color: 0.6, 0.6, 0.6, 1
+                                font_size: '13sp'
+                                padding: 0, 12, 12, 12
+                                cursor_color: 0.4, 0.75, 0.45, 1
+                    
+                    # Campo Username
+                    BoxLayout:
+                        orientation: 'vertical'
+                        spacing: 5
+                        size_hint_y: None
+                        height: 68
+                        
+                        Label:
+                            text: 'Nombre de Usuario'
+                            font_size: '11sp'
+                            color: 0.2, 0.2, 0.2, 1
+                            size_hint_y: None
+                            height: 16
+                            halign: 'left'
+                            text_size: self.size
+                            padding: 3, 0
+                        
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 47
+                            canvas.before:
+                                Color:
+                                    rgba: 0.95, 0.95, 0.95, 1
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [8]
+                            
+                            Widget:
+                                size_hint_x: None
+                                width: 40
+                                canvas:
+                                    Color:
+                                        rgba: 0.6, 0.6, 0.6, 1
+                                    Rectangle:
+                                        pos: self.center_x - 7, self.center_y - 4
+                                        size: 14, 8
+                                    Line:
+                                        points: [self.center_x - 7, self.center_y - 4, self.center_x, self.center_y + 1, self.center_x + 7, self.center_y - 4]
+                                        width: 1.2
+                            
+                            TextInput:
+                                id: username_input
+                                hint_text: 'juan_eco'
+                                multiline: False
+                                background_color: 0, 0, 0, 0
+                                foreground_color: 0.2, 0.2, 0.2, 1
+                                hint_text_color: 0.6, 0.6, 0.6, 1
+                                font_size: '13sp'
+                                padding: 0, 12, 12, 12
+                                cursor_color: 0.4, 0.75, 0.45, 1
+                    
+                    # Campo Email
+                    BoxLayout:
+                        orientation: 'vertical'
+                        spacing: 5
+                        size_hint_y: None
+                        height: 68
+                        
+                        Label:
+                            text: 'Correo Electrónico'
+                            font_size: '11sp'
+                            color: 0.2, 0.2, 0.2, 1
+                            size_hint_y: None
+                            height: 16
+                            halign: 'left'
+                            text_size: self.size
+                            padding: 3, 0
+                        
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 47
+                            canvas.before:
+                                Color:
+                                    rgba: 0.95, 0.95, 0.95, 1
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [8]
+                            
+                            Widget:
+                                size_hint_x: None
+                                width: 40
+                                canvas:
+                                    Color:
+                                        rgba: 0.6, 0.6, 0.6, 1
+                                    Rectangle:
+                                        pos: self.center_x - 7, self.center_y - 4
+                                        size: 14, 8
+                                    Line:
+                                        points: [self.center_x - 7, self.center_y - 4, self.center_x, self.center_y + 1, self.center_x + 7, self.center_y - 4]
+                                        width: 1.2
+                            
+                            TextInput:
+                                id: email_input
+                                hint_text: 'juan@email.com'
+                                multiline: False
+                                background_color: 0, 0, 0, 0
+                                foreground_color: 0.2, 0.2, 0.2, 1
+                                hint_text_color: 0.6, 0.6, 0.6, 1
+                                font_size: '13sp'
+                                padding: 0, 12, 12, 12
+                                cursor_color: 0.4, 0.75, 0.45, 1
+                    
+                    # Campo Contraseña
+                    BoxLayout:
+                        orientation: 'vertical'
+                        spacing: 5
+                        size_hint_y: None
+                        height: 68
+                        
+                        Label:
+                            text: 'Contraseña'
+                            font_size: '11sp'
+                            color: 0.2, 0.2, 0.2, 1
+                            size_hint_y: None
+                            height: 16
+                            halign: 'left'
+                            text_size: self.size
+                            padding: 3, 0
+                        
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 47
+                            canvas.before:
+                                Color:
+                                    rgba: 0.95, 0.95, 0.95, 1
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [8]
+                            
+                            Widget:
+                                size_hint_x: None
+                                width: 40
+                                canvas:
+                                    Color:
+                                        rgba: 0.6, 0.6, 0.6, 1
+                                    RoundedRectangle:
+                                        pos: self.center_x - 5, self.center_y - 6
+                                        size: 10, 12
+                                        radius: [2]
+                                    Rectangle:
+                                        pos: self.center_x - 3, self.center_y - 1
+                                        size: 6, 5
+                            
+                            TextInput:
+                                id: password_input
+                                hint_text: '•••••••'
+                                multiline: False
+                                password: True
+                                background_color: 0, 0, 0, 0
+                                foreground_color: 0.2, 0.2, 0.2, 1
+                                hint_text_color: 0.6, 0.6, 0.6, 1
+                                font_size: '13sp'
+                                padding: 0, 12, 45, 12
+                                cursor_color: 0.4, 0.75, 0.45, 1
+                            
+                            Button:
+                                size_hint_x: None
+                                width: 45
+                                background_normal: ''
+                                background_color: 0, 0, 0, 0
+                                on_press: root.toggle_password()
+                                canvas:
+                                    Color:
+                                        rgba: 0.6, 0.6, 0.6, 1
+                                    Ellipse:
+                                        pos: self.center_x - 8, self.center_y - 4
+                                        size: 16, 8
+                                    Ellipse:
+                                        pos: self.center_x - 3, self.center_y - 2
+                                        size: 6, 4
+                    
+                    # Campo Confirmar Contraseña
+                    BoxLayout:
+                        orientation: 'vertical'
+                        spacing: 5
+                        size_hint_y: None
+                        height: 68
+                        
+                        Label:
+                            text: 'Confirmar Contraseña'
+                            font_size: '11sp'
+                            color: 0.2, 0.2, 0.2, 1
+                            size_hint_y: None
+                            height: 16
+                            halign: 'left'
+                            text_size: self.size
+                            padding: 3, 0
+                        
+                        BoxLayout:
+                            size_hint_y: None
+                            height: 47
+                            canvas.before:
+                                Color:
+                                    rgba: 0.95, 0.95, 0.95, 1
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [8]
+                            
+                            Widget:
+                                size_hint_x: None
+                                width: 40
+                                canvas:
+                                    Color:
+                                        rgba: 0.6, 0.6, 0.6, 1
+                                    RoundedRectangle:
+                                        pos: self.center_x - 5, self.center_y - 6
+                                        size: 10, 12
+                                        radius: [2]
+                                    Rectangle:
+                                        pos: self.center_x - 3, self.center_y - 1
+                                        size: 6, 5
+                            
+                            TextInput:
+                                id: confirm_password_input
+                                hint_text: '•••••••'
+                                multiline: False
+                                password: True
+                                background_color: 0, 0, 0, 0
+                                foreground_color: 0.2, 0.2, 0.2, 1
+                                hint_text_color: 0.6, 0.6, 0.6, 1
+                                font_size: '13sp'
+                                padding: 0, 12, 45, 12
+                                cursor_color: 0.4, 0.75, 0.45, 1
+                            
+                            Button:
+                                size_hint_x: None
+                                width: 45
+                                background_normal: ''
+                                background_color: 0, 0, 0, 0
+                                on_press: root.toggle_confirm_password()
+                                canvas:
+                                    Color:
+                                        rgba: 0.6, 0.6, 0.6, 1
+                                    Ellipse:
+                                        pos: self.center_x - 8, self.center_y - 4
+                                        size: 16, 8
+                                    Ellipse:
+                                        pos: self.center_x - 3, self.center_y - 2
+                                        size: 6, 4
+                    
+                    Widget:
+                        size_hint_y: None
+                        height: 5
+                    
+                    # Botón Crear Cuenta
+                    Button:
+                        text: 'Crear Cuenta'
+                        size_hint_y: None
+                        height: 47
+                        background_normal: ''
+                        background_color: 0, 0, 0, 0
+                        color: 1, 1, 1, 1
+                        font_size: '14sp'
+                        bold: True
+                        on_press: root.registrar_usuario()
+                        canvas.before:
+                            Color:
+                                rgba: 0.4, 0.75, 0.45, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [8]
+                    
+                    Widget:
+                        size_hint_y: None
+                        height: 3
+                    
+                    # Registro
+                    BoxLayout:
+                        size_hint_y: None
+                        height: 20
+                        
+                        Label:
+                            text: '¿Ya tienes cuenta? '
+                            color: 0.5, 0.5, 0.5, 1
+                            font_size: '11sp'
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                        
+                        Button:
+                            text: 'Iniciar Sesión'
+                            color: 0.4, 0.75, 0.45, 1
+                            font_size: '11sp'
+                            bold: True
+                            size_hint_x: None
+                            width: self.texture_size[0] + 8
+                            background_normal: ''
+                            background_color: 0, 0, 0, 0
+                            on_press: root.volver_login()
+                    
+                    # Texto revolución
+                    Label:
+                        text: '🌱 Únete a la revolución del reciclaje'
+                        color: 0.5, 0.5, 0.5, 1
+                        font_size: '10sp'
+                        size_hint_y: None
+                        height: 18
+        
+        # Texto legal
+        Label:
+            text: 'Al crear una cuenta, aceptas nuestros términos de servicio y\npolítica de privacidad'
+            color: 0.6, 0.6, 0.6, 1
+            font_size: '9sp'
+            size_hint_y: None
+            height: 30
+            pos_hint: {'center_x': 0.5, 'y': 0.02}
+            halign: 'center'

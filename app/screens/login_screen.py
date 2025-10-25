@@ -42,7 +42,7 @@ class LoginScreen(MDScreen):
             # Guardar usuario actual en la app (opcional)
             if hasattr(self.manager, 'app'):
                 self.manager.app.current_user = user
-            self.manager.current = 'home'
+            self.show_success_dialog("¡Bienvenido!", f"¡Hola {user.name}! Has iniciado sesión correctamente.")
         else:
             self.show_error_dialog("Error de Login", "Usuario o contraseña incorrectos")
     
@@ -63,6 +63,29 @@ class LoginScreen(MDScreen):
         )
         self.dialog.open()
     
+    def show_success_dialog(self, title: str, message: str):
+        """Muestra un diálogo de éxito"""
+        if self.dialog:
+            self.dialog.dismiss()
+        
+        self.dialog = MDDialog(
+            title=title,
+            text=message,
+            buttons=[
+                MDFlatButton(
+                    text="Continuar",
+                    on_release=lambda x: self.go_to_home()
+                )
+            ]
+        )
+        self.dialog.open()
+    
+    def go_to_home(self):
+        """Navegar a la pantalla home"""
+        if self.dialog:
+            self.dialog.dismiss()
+        self.manager.current = 'home'
+    
     def continuar_google(self):
         """Iniciar sesión con Google"""
         print("Continuar con Google")
@@ -73,8 +96,7 @@ class LoginScreen(MDScreen):
     def ir_registro(self):
         """Navegar a la pantalla de registro"""
         print("Ir a registro")
-        # Aquí puedes navegar a la pantalla de registro
-        # self.manager.current = 'registro'
+        self.manager.current = 'register'
     
     def volver(self):
         """Volver a la pantalla de bienvenida"""

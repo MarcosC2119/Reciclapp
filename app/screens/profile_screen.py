@@ -27,5 +27,61 @@ class ProfileScreen(MDScreen):
     def cerrar_sesion(self):
         """Cierra la sesión del usuario"""
         print("Cerrando sesión...")
-        # Aquí se implementaría la lógica de cierre de sesión
+        # Mostrar mensaje de confirmación
+        self.show_logout_dialog()
+    
+    def show_logout_dialog(self):
+        """Muestra diálogo de confirmación de cierre de sesión"""
+        from kivymd.uix.dialog import MDDialog
+        from kivymd.uix.button import MDFlatButton
+        
+        self.dialog = MDDialog(
+            title="Cerrar Sesión",
+            text="¿Estás seguro de que quieres cerrar sesión?",
+            buttons=[
+                MDFlatButton(
+                    text="Cancelar",
+                    on_release=lambda x: self.dialog.dismiss()
+                ),
+                MDFlatButton(
+                    text="Cerrar Sesión",
+                    on_release=lambda x: self.confirm_logout()
+                )
+            ]
+        )
+        self.dialog.open()
+    
+    def confirm_logout(self):
+        """Confirma el cierre de sesión"""
+        if self.dialog:
+            self.dialog.dismiss()
+        
+        # Limpiar usuario actual si existe
+        if hasattr(self.manager, 'app') and hasattr(self.manager.app, 'current_user'):
+            self.manager.app.current_user = None
+        
+        # Mostrar mensaje de despedida
+        self.show_goodbye_dialog()
+    
+    def show_goodbye_dialog(self):
+        """Muestra mensaje de despedida"""
+        from kivymd.uix.dialog import MDDialog
+        from kivymd.uix.button import MDFlatButton
+        
+        self.dialog = MDDialog(
+            title="¡Hasta pronto!",
+            text="Has cerrado sesión correctamente. ¡Gracias por usar Reciclapp!",
+            buttons=[
+                MDFlatButton(
+                    text="OK",
+                    on_release=lambda x: self.go_to_welcome()
+                )
+            ]
+        )
+        self.dialog.open()
+    
+    def go_to_welcome(self):
+        """Navegar a la pantalla de bienvenida"""
+        if self.dialog:
+            self.dialog.dismiss()
         self.manager.current = 'welcome'
