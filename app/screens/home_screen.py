@@ -42,7 +42,7 @@ class HomeScreen(MDScreen):
         eco_tokens = app.db.get_eco_tokens()
         streak = app.db.get_streak()
         
-        print(f"📊 Dashboard actualizado - Tokens: {eco_tokens}, Racha: {streak}")
+        print(f"[STATS] Dashboard actualizado - Tokens: {eco_tokens}, Racha: {streak}")
         
         # Aquí podrías actualizar los widgets de la UI si tienes IDs asignados
         # Por ejemplo: self.ids.eco_tokens_label.text = str(eco_tokens)
@@ -65,8 +65,8 @@ class HomeScreen(MDScreen):
         # Incrementar racha
         app.db.increment_streak()
         
-        print(f"✅ QR escaneado: {quantity}x {material}")
-        print(f"🪙 Ganaste {eco_tokens} eco-tokens!")
+        print(f"[OK] QR escaneado: {quantity}x {material}")
+        print(f"[COINS] Ganaste {eco_tokens} eco-tokens!")
         
         # Actualizar dashboard
         self.update_dashboard_data()
@@ -79,14 +79,14 @@ class HomeScreen(MDScreen):
         app = MDApp.get_running_app()
         app.analytics.track_button_click('ir_ecopuntos', 'home')
         print("Navegando a EcoPuntos")
-        # self.manager.current = 'map'
+        self.manager.current = 'ecopuntos'
     
     def ir_recompensas(self):
         """Navegar a Recompensas"""
         app = MDApp.get_running_app()
         app.analytics.track_button_click('ir_recompensas', 'home')
         print("Navegando a Recompensas")
-        # self.manager.current = 'rewards'
+        self.manager.current = 'rewards'
     
     def ir_logros(self):
         """Navegar a Logros"""
@@ -116,7 +116,7 @@ class HomeScreen(MDScreen):
         
         # Obtener datos de impacto
         impact = app.db.get_environmental_impact()
-        print(f"🌍 Impacto ambiental:")
+        print(f"[IMPACT] Impacto ambiental:")
         print(f"  CO2 ahorrado: {impact['co2_saved']:.2f} kg")
         print(f"  Agua ahorrada: {impact['water_saved']:.2f} litros")
     

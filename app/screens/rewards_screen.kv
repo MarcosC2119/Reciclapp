@@ -1,0 +1,148 @@
+#:kivy 2.3.1
+#:import utils kivy.utils
+
+<RewardCard>:
+    orientation: 'vertical'
+    size_hint: None, None
+    size: "140dp", "180dp"
+    padding: "8dp"
+    spacing: "8dp"
+    radius: [15]
+    elevation: 2
+    
+    image_source: ''
+    title_text: ''
+    cost_text: ''
+    redeem_callback: None
+    
+    BoxLayout:
+        size_hint_y: 0.5
+        canvas.before:
+            Color:
+                rgba: 0.95, 0.95, 0.95, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Label:
+            text: "[REWARD]"
+            font_size: "40sp"
+            halign: 'center'
+            
+    MDLabel:
+        text: root.title_text
+        halign: "center"
+        bold: True
+        font_size: "14sp"
+        size_hint_y: None
+        height: self.texture_size[1]
+        
+    MDLabel:
+        text: root.cost_text
+        halign: "center"
+        color: utils.get_color_from_hex('#4caf50')
+        font_size: "12sp"
+        size_hint_y: None
+        height: self.texture_size[1]
+        
+    MDRaisedButton:
+        text: "CANJEAR"
+        size_hint_x: 1
+        md_bg_color: utils.get_color_from_hex('#9c27b0')
+        on_release: root.redeem_callback() if root.redeem_callback else None
+
+
+<RewardsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        
+        # Header
+        MDTopAppBar:
+            title: "Recompensas"
+            elevation: 4
+            pos_hint: {"top": 1}
+            md_bg_color: utils.get_color_from_hex('#9c27b0')
+            specific_text_color: 1, 1, 1, 1
+            left_action_items: [["arrow-left", lambda x: root.volver_home()]]
+            
+        # Balance
+        BoxLayout:
+            size_hint_y: None
+            height: dp(60)
+            padding: dp(20)
+            canvas.before:
+                Color:
+                    rgba: utils.get_color_from_hex('#f3e5f5')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            
+            Label:
+                text: "Tus EcoTokens:"
+                color: 0, 0, 0, 1
+                halign: 'left'
+                text_size: self.size
+                
+            Label:
+                id: tokens_label
+                text: "0"
+                color: utils.get_color_from_hex('#9c27b0')
+                bold: True
+                font_size: '24sp'
+                halign: 'right'
+                text_size: self.size
+        
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                padding: dp(20)
+                spacing: dp(20)
+                size_hint_y: None
+                height: self.minimum_height
+                
+                Label:
+                    text: "Disponibles"
+                    size_hint_y: None
+                    height: dp(30)
+                    bold: True
+                    color: 0, 0, 0, 1
+                    halign: 'left'
+                    text_size: self.size
+                
+                # Grid de recompensas (Simulado con un BoxLayout horizontal por simplicidad)
+                ScrollView:
+                    do_scroll_x: True
+                    do_scroll_y: False
+                    size_hint_y: None
+                    height: dp(200)
+                    
+                    BoxLayout:
+                        size_hint_x: None
+                        width: self.minimum_width
+                        spacing: dp(15)
+                        
+                        RewardCard:
+                            title_text: "Cupón Café"
+                            cost_text: "500 Tokens"
+                            redeem_callback: lambda: root.confirm_redeem('coffee_coupon', 'Cupón Café', 500)
+                            
+                        RewardCard:
+                            title_text: "Bolsa Reutilizable"
+                            cost_text: "1000 Tokens"
+                            redeem_callback: lambda: root.confirm_redeem('tote_bag', 'Bolsa Reutilizable', 1000)
+                            
+                        RewardCard:
+                            title_text: "Descuento 20%"
+                            cost_text: "2000 Tokens"
+                            redeem_callback: lambda: root.confirm_redeem('discount_20', 'Descuento 20%', 2000)
+
+                Label:
+                    text: "Historial de Canjes"
+                    size_hint_y: None
+                    height: dp(30)
+                    bold: True
+                    color: 0, 0, 0, 1
+                    halign: 'left'
+                    text_size: self.size
+                    
+                MDList:
+                    id: history_list

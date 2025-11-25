@@ -46,12 +46,12 @@ class Analytics:
             try:
                 with open(self.events_file, 'r', encoding='utf-8') as f:
                     self.events = json.load(f)
-                print(f"📊 {len(self.events)} eventos cargados")
+                print(f"[STATS] {len(self.events)} eventos cargados")
             except json.JSONDecodeError:
-                print(f"⚠️ Error al leer eventos, creando nuevo archivo")
+                print(f"[WARNING] Error al leer eventos, creando nuevo archivo")
                 self.events = []
         else:
-            print(f"📝 Creando nuevo archivo de eventos")
+            print(f"[INFO] Creando nuevo archivo de eventos")
             self.events = []
     
     def save_events(self) -> bool:
@@ -66,7 +66,7 @@ class Analytics:
                 json.dump(self.events, f, indent=4, ensure_ascii=False)
             return True
         except Exception as e:
-            print(f"❌ Error al guardar eventos: {e}")
+            print(f"[ERROR] Error al guardar eventos: {e}")
             return False
     
     # ==================== TRACKING DE EVENTOS ====================
@@ -91,7 +91,7 @@ class Analytics:
         
         # Log en consola para debugging
         props_str = f" - {properties}" if properties else ""
-        print(f"📊 Event: {event_name}{props_str}")
+        print(f"[EVENT] Event: {event_name}{props_str}")
     
     def track_screen_view(self, screen_name: str) -> None:
         """
@@ -172,7 +172,7 @@ class Analytics:
         }
         
         self.track_event('session_start', {'session_id': session_id})
-        print(f"🟢 Sesión iniciada: {session_id}")
+        print(f"[SESSION_START] Sesión iniciada: {session_id}")
         
         return session_id
     
@@ -184,7 +184,7 @@ class Analytics:
             Duración de la sesión en segundos, o None si no hay sesión activa
         """
         if not self.current_session:
-            print("⚠️ No hay sesión activa para finalizar")
+            print("[WARNING] No hay sesión activa para finalizar")
             return None
         
         end_time = datetime.now()
@@ -200,7 +200,7 @@ class Analytics:
             'duration_minutes': round(duration / 60, 2)
         })
         
-        print(f"🔴 Sesión finalizada: {duration:.2f}s ({duration/60:.2f}min)")
+        print(f"[SESSION_END] Sesión finalizada: {duration:.2f}s ({duration/60:.2f}min)")
         
         session_duration = duration
         self.current_session = None
@@ -367,23 +367,23 @@ class Analytics:
         print("\n" + "="*50)
         print("📊 REPORTE DE MÉTRICAS - RECICLAPP")
         print("="*50)
-        print(f"\n📈 Eventos Totales: {report['total_events']}")
-        print(f"🔄 Sesiones Totales: {report['total_sessions']}")
-        print(f"⏱️  Duración Promedio de Sesión: {report['average_session_duration_minutes']} min")
-        print(f"👁️  Vistas de Pantallas: {report['total_screen_views']}")
-        print(f"🖱️  Clicks en Botones: {report['total_button_clicks']}")
-        print(f"♻️  Items Reciclados: {report['total_items_recycled']}")
-        print(f"🏆 Logros Desbloqueados: {report['achievements_unlocked']}")
+        print(f"\n[STATS] Eventos Totales: {report['total_events']}")
+        print(f"[STATS] Sesiones Totales: {report['total_sessions']}")
+        print(f"[STATS] Duración Promedio de Sesión: {report['average_session_duration_minutes']} min")
+        print(f"[STATS] Vistas de Pantallas: {report['total_screen_views']}")
+        print(f"[STATS] Clicks en Botones: {report['total_button_clicks']}")
+        print(f"[STATS] Items Reciclados: {report['total_items_recycled']}")
+        print(f"[STATS] Logros Desbloqueados: {report['achievements_unlocked']}")
         
-        print("\n🔝 Top 5 Pantallas Más Vistas:")
+        print("\n[TOP] Top 5 Pantallas Más Vistas:")
         for screen, count in report['most_viewed_screens']:
             print(f"   - {screen}: {count} vistas")
         
-        print("\n🔝 Top 5 Botones Más Clickeados:")
+        print("\n[TOP] Top 5 Botones Más Clickeados:")
         for button, count in report['most_clicked_buttons'][:5]:
             print(f"   - {button}: {count} clicks")
         
-        print("\n♻️  Reciclaje por Material:")
+        print("\n[STATS] Reciclaje por Material:")
         for material, quantity in report['recycling_by_material'].items():
             print(f"   - {material}: {quantity} items")
         
@@ -403,10 +403,10 @@ class Analytics:
             report = self.generate_summary_report()
             with open(filepath, 'w', encoding='utf-8') as f:
                 json.dump(report, f, indent=4, ensure_ascii=False)
-            print(f"📤 Reporte exportado a {filepath}")
+            print(f"[EXPORT] Reporte exportado a {filepath}")
             return True
         except Exception as e:
-            print(f"❌ Error al exportar reporte: {e}")
+            print(f"[ERROR] Error al exportar reporte: {e}")
             return False
     
     # ==================== LIMPIEZA ====================
@@ -432,6 +432,6 @@ class Analytics:
         deleted = original_count - len(self.events)
         if deleted > 0:
             self.save_events()
-            print(f"🗑️ {deleted} eventos antiguos eliminados")
+            print(f"[CLEANUP] {deleted} eventos antiguos eliminados")
         
         return deleted

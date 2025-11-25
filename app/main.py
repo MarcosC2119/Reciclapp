@@ -21,7 +21,10 @@ from app.screens.login_screen import LoginScreen
 from app.screens.home_screen import HomeScreen
 from app.screens.profile_screen import ProfileScreen
 from app.screens.community_screen import CommunityScreen
+from app.screens.community_screen import CommunityScreen
 from app.screens.achievements_screen import AchievementsScreen
+from app.screens.ecopuntos_screen import EcoPuntosScreen
+from app.screens.rewards_screen import RewardsScreen
 
 # Importar sistemas de persistencia y métricas
 from app.database import Database
@@ -57,10 +60,10 @@ class MainApp(MDApp):
         # Actualizar último login
         self.db.update_last_login()
         
-        print(f"\n✅ Reciclapp iniciada")
-        print(f"👤 Usuario: {self.db.get_user()['name']}")
-        print(f"🪙 Eco-tokens: {self.db.get_eco_tokens()}")
-        print(f"🔥 Racha: {self.db.get_streak()} días\n")
+        print(f"\n[OK] Reciclapp iniciada")
+        print(f"[USER] Usuario: {self.db.get_user()['name']}")
+        print(f"[COINS] Eco-tokens: {self.db.get_eco_tokens()}")
+        print(f"[STREAK] Racha: {self.db.get_streak()} días\n")
         
         return sm
     
@@ -77,12 +80,12 @@ class MainApp(MDApp):
         
         # Mostrar reporte de métricas
         print("\n" + "="*50)
-        print("📊 Resumen de la sesión:")
+        print("[STATS] Resumen de la sesión:")
         duration = self.analytics.get_session_duration()
         if duration:
-            print(f"⏱️  Duración: {duration:.2f}s ({duration/60:.2f} min)")
-        print(f"🪙 Eco-tokens finales: {self.db.get_eco_tokens()}")
-        print(f"♻️  Items reciclados: {self.db.get_total_items_recycled()}")
+            print(f"[TIME] Duración: {duration:.2f}s ({duration/60:.2f} min)")
+        print(f"[COINS] Eco-tokens finales: {self.db.get_eco_tokens()}")
+        print(f"[RECYCLED] Items reciclados: {self.db.get_total_items_recycled()}")
         print("="*50 + "\n")
         
         return super().on_stop()

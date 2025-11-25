@@ -44,12 +44,12 @@ class Database:
             try:
                 with open(self.data_file, 'r', encoding='utf-8') as f:
                     self.data = json.load(f)
-                print(f"✅ Datos cargados desde {self.data_file}")
+                print(f"[OK] Datos cargados desde {self.data_file}")
             except json.JSONDecodeError:
-                print(f"⚠️ Error al leer {self.data_file}, creando nueva estructura")
+                print(f"[WARNING] Error al leer {self.data_file}, creando nueva estructura")
                 self._create_initial_data()
         else:
-            print(f"📝 Creando nueva base de datos en {self.data_file}")
+            print(f"[INFO] Creando nueva base de datos en {self.data_file}")
             self._create_initial_data()
     
     def _create_initial_data(self) -> None:
@@ -67,6 +67,8 @@ class Database:
             },
             'recycling_history': [],
             'achievements': [],
+            'saved_locations': [],
+            'redeemed_rewards': [],
             'settings': {
                 'notifications': True,
                 'theme': 'light',
@@ -91,10 +93,10 @@ class Database:
         try:
             with open(self.data_file, 'w', encoding='utf-8') as f:
                 json.dump(self.data, f, indent=4, ensure_ascii=False)
-            print(f"💾 Datos guardados en {self.data_file}")
+            print(f"[SAVED] Datos guardados en {self.data_file}")
             return True
         except Exception as e:
-            print(f"❌ Error al guardar datos: {e}")
+            print(f"[ERROR] Error al guardar datos: {e}")
             return False
     
     # ==================== MÉTODOS DE USUARIO ====================
@@ -139,7 +141,7 @@ class Database:
         self.data['user']['eco_tokens'] += amount
         new_total = self.data['user']['eco_tokens']
         self.save_data()
-        print(f"🪙 +{amount} eco-tokens. Total: {new_total}")
+        print(f"[COINS] +{amount} eco-tokens. Total: {new_total}")
         return new_total
     
     def spend_eco_tokens(self, amount: int) -> bool:
@@ -156,10 +158,10 @@ class Database:
         if current >= amount:
             self.data['user']['eco_tokens'] -= amount
             self.save_data()
-            print(f"💸 -{amount} eco-tokens. Restante: {self.data['user']['eco_tokens']}")
+            print(f"[SPENT] -{amount} eco-tokens. Restante: {self.data['user']['eco_tokens']}")
             return True
         else:
-            print(f"❌ No hay suficientes eco-tokens. Tienes: {current}, necesitas: {amount}")
+            print(f"[ERROR] No hay suficientes eco-tokens. Tienes: {current}, necesitas: {amount}")
             return False
     
     # ==================== MÉTODOS DE RACHA ====================
@@ -178,14 +180,14 @@ class Database:
         self.data['user']['streak'] += 1
         new_streak = self.data['user']['streak']
         self.save_data()
-        print(f"🔥 Racha aumentada a {new_streak} días")
+        print(f"[STREAK] Racha aumentada a {new_streak} días")
         return new_streak
     
     def reset_streak(self) -> None:
         """Resetea la racha a 0."""
         self.data['user']['streak'] = 0
         self.save_data()
-        print("💔 Racha reseteada a 0")
+        print("[RESET] Racha reseteada a 0")
     
     # ==================== MÉTODOS DE RECICLAJE ====================
     
@@ -216,7 +218,7 @@ class Database:
         self._update_environmental_impact(material, quantity)
         
         self.save_data()
-        print(f"♻️ Item reciclado: {quantity}x {material} (+{eco_tokens} tokens)")
+        print(f"[RECYCLED] Item reciclado: {quantity}x {material} (+{eco_tokens} tokens)")
     
     def _update_environmental_impact(self, material: str, quantity: int) -> None:
         """
@@ -281,13 +283,78 @@ class Database:
         
         self.data['achievements'].append(achievement)
         self.save_data()
-        print(f"🏆 Logro desbloqueado: {name}")
+        print(f"[ACHIEVEMENT] Logro desbloqueado: {name}")
         return True
     
     def get_achievements(self) -> List[Dict[str, Any]]:
         """Obtiene todos los logros desbloqueados."""
         return self.data.get('achievements', [])
     
+    # ==================== MÉTODOS DE ECO-PUNTOS ====================
+    
+    def add_saved_location(self, name: str, address: str, location_type: str) -> None:
+        """
+        Guarda una ubicación de EcoPunto.
+        
+        Args:
+            name: Nombre del lugar
+            address: Dirección
+            location_type: Tipo de punto (reciclaje, punto limpio, etc)
+        """
+        location = {
+            'id': len(self.data.get('saved_locations', [])) + 1,
+            'name': name,
+            'address': address,
+            'type': location_type,
+            'date_added': datetime.now().isoformat()
+        }
+        
+        if 'saved_locations' not in self.data:
+            self.data['saved_locations'] = []
+            
+        self.data['saved_locations'].append(location)
+        self.save_data()
+        print(f"[LOCATION] Ubicación guardada: {name}")
+
+    def get_saved_locations(self) -> List[Dict[str, Any]]:
+        """Obtiene las ubicaciones guardadas."""
+        return self.data.get('saved_locations', [])
+
+    # ==================== MÉTODOS DE RECOMPENSAS ====================
+
+    def redeem_reward(self, reward_id: str, name: str, cost: int) -> bool:
+        """
+        Canjea una recompensa si hay suficientes tokens.
+        
+        Args:
+            reward_id: ID de la recompensa
+            name: Nombre de la recompensa
+            cost: Costo en eco-tokens
+            
+        Returns:
+            True si se canjeó exitosamente
+        """
+        if self.spend_eco_tokens(cost):
+            reward = {
+                'id': reward_id,
+                'name': name,
+                'cost': cost,
+                'date_redeemed': datetime.now().isoformat()
+            }
+            
+            if 'redeemed_rewards' not in self.data:
+                self.data['redeemed_rewards'] = []
+                
+            self.data['redeemed_rewards'].append(reward)
+            self.save_data()
+            print(f"[REWARD] Recompensa canjeada: {name}")
+            return True
+        return False
+
+    def get_redeemed_rewards(self) -> List[Dict[str, Any]]:
+        """Obtiene el historial de recompensas canjeadas."""
+        return self.data.get('redeemed_rewards', [])
+
     # ==================== MÉTODOS DE ESTADÍSTICAS ====================
     
     def get_stats(self) -> Dict[str, Any]:
@@ -315,7 +382,7 @@ class Database:
     def reset_all_data(self) -> None:
         """Resetea todos los datos a los valores iniciales (¡CUIDADO!)."""
         self._create_initial_data()
-        print("⚠️ Todos los datos han sido reseteados")
+        print("[WARNING] Todos los datos han sido reseteados")
     
     def export_data(self, filepath: str) -> bool:
         """
@@ -330,8 +397,8 @@ class Database:
         try:
             with open(filepath, 'w', encoding='utf-8') as f:
                 json.dump(self.data, f, indent=4, ensure_ascii=False)
-            print(f"📤 Datos exportados a {filepath}")
+            print(f"[EXPORT] Datos exportados a {filepath}")
             return True
         except Exception as e:
-            print(f"❌ Error al exportar: {e}")
+            print(f"[ERROR] Error al exportar: {e}")
             return False

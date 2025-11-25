@@ -27,10 +27,12 @@
             Ellipse:
                 pos: self.center_x - dp(20), self.center_y - dp(20)
                 size: dp(40), dp(40)
-        Label:
-            text: root.icon_text
-            color: utils.get_color_from_hex('#4caf50')
-            font_size: '18sp'
+        MDIcon:
+            icon: root.icon_text
+            theme_text_color: "Custom"
+            text_color: utils.get_color_from_hex('#4caf50')
+            font_size: '24sp'
+            pos_hint: {'center_x': .5, 'center_y': .5}
     
     # Texto (Título y Hora)
     BoxLayout:
@@ -114,12 +116,16 @@
                     size_hint_x: None
                     width: dp(60)
                     spacing: dp(10)
-                    Label:
-                        text: '🌙'
-                        font_size: '20sp'
-                    Label:
-                        text: '🔔'
-                        font_size: '20sp'
+                    MDIcon:
+                        icon: 'weather-night'
+                        font_size: '24sp'
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+                    MDIcon:
+                        icon: 'bell-outline'
+                        font_size: '24sp'
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
             
             # Tarjetas de EcoTokens y Racha
             BoxLayout:
@@ -137,11 +143,13 @@
                             pos: self.pos
                             size: self.size
                             radius: [dp(15)]
-                    Label:
-                        text: '💰'
+                    MDIcon:
+                        icon: 'cash'
                         size_hint_x: None
                         width: dp(30)
-                        font_size: '20sp'
+                        font_size: '24sp'
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
                     BoxLayout:
                         orientation: 'vertical'
                         Label:
@@ -169,11 +177,13 @@
                             pos: self.pos
                             size: self.size
                             radius: [dp(15)]
-                    Label:
-                        text: '🔥'
+                    MDIcon:
+                        icon: 'fire'
                         size_hint_x: None
                         width: dp(30)
-                        font_size: '20sp'
+                        font_size: '24sp'
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
                     BoxLayout:
                         orientation: 'vertical'
                         Label:
@@ -221,10 +231,11 @@
                     BoxLayout:
                         size_hint_y: None
                         height: dp(25)
-                        Label:
-                            text: '📊'
+                        MDIcon:
+                            icon: 'chart-bar'
                             size_hint_x: None
                             width: dp(25)
+                            font_size: '20sp'
                         Label:
                             text: 'Progreso Semanal'
                             color: 0, 0, 0, 1
@@ -365,19 +376,19 @@
                     
                     # Lista de actividades
                     ActivityItem:
-                        icon_text: '🍾'
+                        icon_text: 'bottle-soda'
                         title_text: 'Botella de Plástico PET'
                         time_text: 'hace 2h'
                         points_text: '+15'
                     
                     ActivityItem:
-                        icon_text: '🏆'
+                        icon_text: 'trophy'
                         title_text: 'Logro desbloqueado: Eco Warrior'
                         time_text: 'hace 5h'
                         points_text: '+100'
                     
                     ActivityItem:
-                        icon_text: '🎯'
+                        icon_text: 'target'
                         title_text: 'Desafío semanal completado'
                         time_text: 'hace 1d'
                         points_text: '+250'
@@ -395,11 +406,13 @@
                             size: self.size
                             radius: [dp(20)]
                     
-                    Label:
-                        text: '👥'
+                    MDIcon:
+                        icon: 'account-group'
                         size_hint_x: None
                         width: dp(40)
-                        font_size: '28sp'
+                        font_size: '36sp'
+                        theme_text_color: "Custom"
+                        text_color: utils.get_color_from_hex('#4caf50')
                     
                     BoxLayout:
                         orientation: 'vertical'
@@ -446,11 +459,14 @@
                             size: self.size
                             radius: [dp(20)]
                     
-                    Label:
-                        text: '🌱'
-                        font_size: '40sp'
+                    MDIcon:
+                        icon: 'sprout'
+                        font_size: '48sp'
                         size_hint_y: None
                         height: dp(50)
+                        theme_text_color: "Custom"
+                        text_color: utils.get_color_from_hex('#4caf50')
+                        pos_hint: {'center_x': .5}
                     
                     Label:
                         text: '¡Tu impacto es increíble!'
@@ -537,8 +553,7 @@
                 size_hint: None, None
                 size: dp(60), dp(60)
                 pos_hint: {'center_x': 0.5, 'y': 0.25}
-                text: '📷'
-                font_size: '28sp'
+                text: ''
                 background_color: 0, 0, 0, 0
                 on_press: root.escanear_qr()
                 canvas.before:
@@ -547,3 +562,9 @@
                     Ellipse:
                         pos: self.pos
                         size: self.size
+                MDIcon:
+                    icon: 'camera'
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    font_size: '28sp'

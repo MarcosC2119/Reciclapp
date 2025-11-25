@@ -1,0 +1,50 @@
+#:kivy 2.3.1
+#:import utils kivy.utils
+
+<EcoPuntosScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        
+        # Header
+        MDTopAppBar:
+            title: "EcoPuntos"
+            elevation: 4
+            pos_hint: {"top": 1}
+            md_bg_color: utils.get_color_from_hex('#2196f3')
+            specific_text_color: 1, 1, 1, 1
+            left_action_items: [["arrow-left", lambda x: root.volver_home()]]
+            right_action_items: [["plus", lambda x: root.show_add_dialog()]]
+            
+        # Contenido
+        BoxLayout:
+            orientation: 'vertical'
+            padding: dp(20)
+            spacing: dp(10)
+            
+            # Mapa simulado (Imagen o Placeholder)
+            BoxLayout:
+                size_hint_y: 0.4
+                canvas.before:
+                    Color:
+                        rgba: 0.9, 0.9, 0.9, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Label:
+                    text: "🗺️ Mapa de Puntos Cercanos\n(Simulación)"
+                    color: 0.5, 0.5, 0.5, 1
+                    halign: 'center'
+            
+            Label:
+                text: "Mis Lugares Guardados"
+                size_hint_y: None
+                height: dp(40)
+                bold: True
+                color: 0, 0, 0, 1
+                halign: 'left'
+                text_size: self.size
+            
+            # Lista de lugares
+            ScrollView:
+                MDList:
+                    id: locations_list
