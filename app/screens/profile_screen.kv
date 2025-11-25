@@ -1,5 +1,6 @@
 #:kivy 2.3.1
 #:import utils kivy.utils
+#:import MDIcon kivymd.uix.label.MDIcon
 
 # --- Widgets Personalizados para la Pantalla de Perfil ---
 
@@ -36,11 +37,13 @@
     height: dp(30)
     icon: ''
     text: ''
-    Label:
-        text: root.icon
+    MDIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: .4,.4,.4,1
         size_hint_x: None
         width: dp(30)
-        color: .4,.4,.4,1
+        pos_hint: {'center_y': .5}
     Label:
         text: root.text
         color: .3,.3,.3,1
@@ -52,11 +55,13 @@
     height: dp(25)
     icon: ''
     title: ''
-    Label:
-        text: root.icon
+    MDIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: .3,.3,.3,1
         size_hint_x: None
         width: dp(30)
-        color: .3,.3,.3,1
+        pos_hint: {'center_y': .5}
     Label:
         text: root.title
         font_size: '16sp'
@@ -96,14 +101,12 @@
             BoxLayout:
                 size_hint_y: None
                 height: dp(40)
-                Button:
-                    text: '←'
-                    size_hint_x: None
-                    width: dp(40)
-                    background_color: 0,0,0,0
-                    color: 1, 1, 1, 1
-                    font_size: '24sp'
-                    on_press: root.volver_home()
+                MDIconButton:
+                    icon: 'arrow-left'
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    pos_hint: {'center_y': .5}
+                    on_release: root.volver_home()
                 Label:
                     text: 'Mi Perfil'
                     font_size: '20sp'
@@ -111,13 +114,11 @@
                     halign: 'center'
                     text_size: self.width, None
                     color: 1, 1, 1, 1
-                Button:
-                    text: '✏️'
-                    size_hint_x: None
-                    width: dp(40)
-                    background_color: 0,0,0,0
-                    color: 1, 1, 1, 1
-                    font_size: '20sp'
+                MDIconButton:
+                    icon: 'pencil'
+                    theme_text_color: "Custom"
+                    text_color: 1, 1, 1, 1
+                    pos_hint: {'center_y': .5}
             
             # Info de Usuario
             BoxLayout:
@@ -206,13 +207,13 @@
                             size: self.size
                             radius: [dp(20)]
                     ProfileInfoLine:
-                        icon: '📍'
+                        icon: 'map-marker'
                         text: 'Ciudad de México'
                     ProfileInfoLine:
-                        icon: '📅'
+                        icon: 'calendar'
                         text: 'Miembro desde Marzo 2024'
                     ProfileInfoLine:
-                        icon: '👥'
+                        icon: 'account-group'
                         text: '156 amigos eco'
 
                 # Tarjeta de logros recientes
@@ -230,7 +231,7 @@
                             size: self.size
                             radius: [dp(20)]
                     ProfileSectionTitle:
-                        icon: '🏆'
+                        icon: 'trophy'
                         title: 'Logros Recientes'
                     BoxLayout:
                         size_hint_y: None
@@ -264,15 +265,24 @@
                                     radius: [dp(15)]
 
                 # Sección de Configuración
-                Label:
-                    text: '⚙️  Configuración'
-                    font_size: '16sp'
-                    bold: True
-                    color: .2,.2,.2,1
-                    halign: 'left'
-                    text_size: self.width, None
+                BoxLayout:
                     size_hint_y: None
                     height: dp(40)
+                    spacing: dp(10)
+                    MDIcon:
+                        icon: 'cog'
+                        theme_text_color: "Custom"
+                        text_color: .2,.2,.2,1
+                        size_hint_x: None
+                        width: dp(30)
+                        pos_hint: {'center_y': .5}
+                    Label:
+                        text: 'Configuración'
+                        font_size: '16sp'
+                        bold: True
+                        color: .2,.2,.2,1
+                        halign: 'left'
+                        text_size: self.width, None
 
                 # Tarjeta de Apariencia
                 BoxLayout:
@@ -289,7 +299,7 @@
                             size: self.size
                             radius: [dp(20)]
                     ProfileSectionTitle:
-                        icon: '🎨'
+                        icon: 'palette'
                         title: 'Apariencia'
                     BoxLayout:
                         size_hint_y: None
@@ -308,12 +318,14 @@
                                 color: .6,.6,.6,1
                                 halign: 'left'
                                 text_size: self.width, None
-                        Label:
-                            text: '🌙'
+                        MDIcon:
+                            icon: 'weather-night'
+                            theme_text_color: "Custom"
+                            text_color: .5,.5,.5,1
                             size_hint_x: None
                             width: dp(40)
-                            font_size: '20sp'
-                            color: .5,.5,.5,1
+                            pos_hint: {'center_y': .5}
+                            halign: "center"
 
                 # Tarjeta de Notificaciones
                 BoxLayout:
@@ -330,7 +342,7 @@
                             size: self.size
                             radius: [dp(20)]
                     ProfileSectionTitle:
-                        icon: '🔔'
+                        icon: 'bell'
                         title: 'Notificaciones'
                     Label:
                         text: 'Recordatorios de reciclaje'
@@ -372,7 +384,7 @@
                             size: self.size
                             radius: [dp(20)]
                     ProfileSectionTitle:
-                        icon: '👤'
+                        icon: 'account'
                         title: 'Cuenta'
                     Button:
                         text: 'Información personal  ›'
@@ -417,7 +429,7 @@
                             size: self.size
                             radius: [dp(20)]
                     ProfileSectionTitle:
-                        icon: '❓'
+                        icon: 'help-circle'
                         title: 'Soporte'
                     Button:
                         text: 'Centro de ayuda  ›'
@@ -448,15 +460,9 @@
                         padding: [dp(10), 0]
                 
                 # Botón de Cerrar Sesión
-                Button:
-                    text: '🚪  Cerrar Sesión'
+                BoxLayout:
                     size_hint_y: None
                     height: dp(50)
-                    background_color: 0,0,0,0
-                    color: utils.get_color_from_hex('#f44336')
-                    bold: True
-                    font_size: '15sp'
-                    on_press: root.cerrar_sesion()
                     canvas.before:
                         Color:
                             rgba: 1,1,1,1
@@ -469,3 +475,19 @@
                         Line:
                             width: 1.5
                             rounded_rectangle: (self.x, self.y, self.width, self.height, dp(20))
+                    
+                    MDIconButton:
+                        icon: "logout"
+                        theme_text_color: "Custom"
+                        text_color: utils.get_color_from_hex('#f44336')
+                        pos_hint: {'center_y': .5}
+                        on_release: root.cerrar_sesion()
+                    
+                    Label:
+                        text: 'Cerrar Sesión'
+                        color: utils.get_color_from_hex('#f44336')
+                        bold: True
+                        font_size: '15sp'
+                        halign: 'left'
+                        text_size: self.size
+                        valign: 'middle'

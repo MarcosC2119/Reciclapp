@@ -56,8 +56,8 @@ class Database:
         """Crea la estructura inicial de datos."""
         self.data = {
             'user': {
-                'name': 'Usuario',
-                'email': '',
+                'name': 'Ana Martínez',
+                'email': 'ana@reciclapp.com',
                 'eco_tokens': 0,
                 'streak': 0,
                 'level': 1,
@@ -69,6 +69,7 @@ class Database:
             'achievements': [],
             'saved_locations': [],
             'redeemed_rewards': [],
+            'community_posts': [],
             'settings': {
                 'notifications': True,
                 'theme': 'light',
@@ -354,6 +355,38 @@ class Database:
     def get_redeemed_rewards(self) -> List[Dict[str, Any]]:
         """Obtiene el historial de recompensas canjeadas."""
         return self.data.get('redeemed_rewards', [])
+
+    # ==================== MÉTODOS DE COMUNIDAD ====================
+
+    def add_community_post(self, author: str, content: str, location: str = "Reciclapp") -> None:
+        """
+        Agrega un nuevo post a la comunidad.
+        
+        Args:
+            author: Nombre del autor
+            content: Contenido del post
+            location: Ubicación (opcional)
+        """
+        post = {
+            'id': len(self.data.get('community_posts', [])) + 1,
+            'author': author,
+            'content': content,
+            'location': location,
+            'date': datetime.now().isoformat(),
+            'likes': 0,
+            'comments': 0
+        }
+        
+        if 'community_posts' not in self.data:
+            self.data['community_posts'] = []
+            
+        self.data['community_posts'].insert(0, post)  # Agregar al inicio
+        self.save_data()
+        print(f"[POST] Nuevo post de {author}: {content[:20]}...")
+
+    def get_community_posts(self) -> List[Dict[str, Any]]:
+        """Obtiene todos los posts de la comunidad."""
+        return self.data.get('community_posts', [])
 
     # ==================== MÉTODOS DE ESTADÍSTICAS ====================
     

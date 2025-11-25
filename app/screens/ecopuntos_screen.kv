@@ -1,5 +1,6 @@
 #:kivy 2.3.1
 #:import utils kivy.utils
+#:import MDIcon kivymd.uix.label.MDIcon
 
 <EcoPuntosScreen>:
     BoxLayout:
@@ -24,14 +25,23 @@
             # Mapa simulado (Imagen o Placeholder)
             BoxLayout:
                 size_hint_y: 0.4
+                orientation: 'vertical'
+                padding: dp(20)
                 canvas.before:
                     Color:
                         rgba: 0.9, 0.9, 0.9, 1
                     Rectangle:
                         pos: self.pos
                         size: self.size
+                MDIcon:
+                    icon: "map-marker-radius"
+                    theme_text_color: "Custom"
+                    text_color: 0.5, 0.5, 0.5, 1
+                    font_size: "48sp"
+                    pos_hint: {'center_x': .5}
+                    halign: "center"
                 Label:
-                    text: "🗺️ Mapa de Puntos Cercanos\n(Simulación)"
+                    text: "Mapa de Puntos Cercanos\n(Simulación)"
                     color: 0.5, 0.5, 0.5, 1
                     halign: 'center'
             
