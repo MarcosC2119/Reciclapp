@@ -24,7 +24,7 @@ class ProfileScreen(MDScreen):
         
         # Obtener y mostrar datos del usuario
         user = app.db.get_user()
-        print(f"📱 Perfil: {user['name']} ({user['email']})")
+        print(f"[PROFILE] Perfil: {user['name']} ({user['email']})")
     
     def editar_perfil(self):
         """Permite editar el perfil del usuario"""

@@ -39,7 +39,7 @@ FloatLayout:
         RewardsScreen:
             name: 'rewards'
     
-    # Navbar inferior estático (solo visible en ciertas pantallas)
+    # Navbar inferior estático
     FloatLayout:
         id: bottom_nav
         size_hint_y: None
@@ -49,52 +49,73 @@ FloatLayout:
         opacity: 1 if screen_manager.current in ['home', 'community', 'achievements', 'profile'] else 0
         disabled: screen_manager.current not in ['home', 'community', 'achievements', 'profile']
         
+        # Fondo blanco con sombra/borde superior
         BoxLayout:
             size_hint_y: None
             height: dp(65)
             pos_hint: {'x': 0, 'y': 0}
+            padding: [dp(10), dp(5), dp(10), dp(5)]
             canvas.before:
                 Color:
-                    rgba: 1,1,1,1
+                    rgba: 1, 1, 1, 1
                 RoundedRectangle:
                     pos: self.pos
                     size: self.size
                     radius: [dp(20), dp(20), 0, 0]
-            Button:
-                text: 'Inicio'
-                background_color: 0,0,0,0
-                color: utils.get_color_from_hex('#33a961') if screen_manager.current == 'home' else (0.5, 0.5, 0.5, 1)
-                on_press: screen_manager.current = 'home'
-            Button:
-                text: 'Comunidad'
-                background_color: 0,0,0,0
-                color: utils.get_color_from_hex('#33a961') if screen_manager.current == 'community' else (0.5, 0.5, 0.5, 1)
-                on_press: screen_manager.current = 'community'
+                Color:
+                    rgba: 0, 0, 0, 0.05
+                Line:
+                    points: [self.x, self.y + self.height, self.x + self.width, self.y + self.height]
+                    width: 1
+
+            # Botón Inicio
+            MDIconButton:
+                icon: "home" if screen_manager.current == 'home' else "home-outline"
+                theme_text_color: "Custom"
+                text_color: utils.get_color_from_hex('#4caf50') if screen_manager.current == 'home' else (0.6, 0.6, 0.6, 1)
+                pos_hint: {'center_y': 0.5}
+                on_release: screen_manager.current = 'home'
+                size_hint_x: 1
+
+            # Botón Comunidad
+            MDIconButton:
+                icon: "account-group" if screen_manager.current == 'community' else "account-group-outline"
+                theme_text_color: "Custom"
+                text_color: utils.get_color_from_hex('#4caf50') if screen_manager.current == 'community' else (0.6, 0.6, 0.6, 1)
+                pos_hint: {'center_y': 0.5}
+                on_release: screen_manager.current = 'community'
+                size_hint_x: 1
+
+            # Espacio central para el botón flotante
             Widget:
                 size_hint_x: 1.2
-            Button:
-                text: 'Logros'
-                background_color: 0,0,0,0
-                color: utils.get_color_from_hex('#33a961') if screen_manager.current == 'achievements' else (0.5, 0.5, 0.5, 1)
-                on_press: screen_manager.current = 'achievements'
-            Button:
-                text: 'Perfil'
-                background_color: 0,0,0,0
-                color: utils.get_color_from_hex('#33a961') if screen_manager.current == 'profile' else (0.5, 0.5, 0.5, 1)
-                on_press: screen_manager.current = 'profile'
+
+            # Botón Logros
+            MDIconButton:
+                icon: "trophy" if screen_manager.current == 'achievements' else "trophy-outline"
+                theme_text_color: "Custom"
+                text_color: utils.get_color_from_hex('#4caf50') if screen_manager.current == 'achievements' else (0.6, 0.6, 0.6, 1)
+                pos_hint: {'center_y': 0.5}
+                on_release: screen_manager.current = 'achievements'
+                size_hint_x: 1
+
+            # Botón Perfil
+            MDIconButton:
+                icon: "account" if screen_manager.current == 'profile' else "account-outline"
+                theme_text_color: "Custom"
+                text_color: utils.get_color_from_hex('#4caf50') if screen_manager.current == 'profile' else (0.6, 0.6, 0.6, 1)
+                pos_hint: {'center_y': 0.5}
+                on_release: screen_manager.current = 'profile'
+                size_hint_x: 1
         
-        Button:
-            size_hint: None, None
-            size: dp(60), dp(60)
-            pos_hint: {'center_x': 0.5, 'y': 0.25}
-            text: 'QR'
-            font_size: '20sp'
-            bold: True
-            background_color: 0,0,0,0
-            canvas.before:
-                Color:
-                    rgba: utils.get_color_from_hex('#4caf50')
-                Ellipse:
-                    pos: self.pos
-                    size: self.size
+        # Botón Flotante Central (QR)
+        MDFloatingActionButton:
+            icon: "camera"
+            md_bg_color: utils.get_color_from_hex('#4caf50')
+            text_color: 1, 1, 1, 1
+            pos_hint: {'center_x': 0.5, 'y': 0.3}
+            elevation: 4
+            on_release: 
+                # Lógica para escanear QR (simulada)
+                screen_manager.get_screen('home').escanear_qr()
 
