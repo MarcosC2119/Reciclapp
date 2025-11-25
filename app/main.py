@@ -1,5 +1,6 @@
 """
 Aplicación principal KivyMD - Reciclapp
+Autor: Marcos Castro (mcastro2024@alu.uct.cl)
 """
 import sys
 import os
@@ -22,9 +23,19 @@ from app.screens.profile_screen import ProfileScreen
 from app.screens.community_screen import CommunityScreen
 from app.screens.achievements_screen import AchievementsScreen
 
+# Importar sistemas de persistencia y métricas
+from app.database import Database
+from app.analytics import Analytics
+
 
 class MainApp(MDApp):
     """Aplicación principal - Reciclapp"""
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Inicializar sistemas
+        self.db = Database()
+        self.analytics = Analytics()
     
     def build(self):
         """Construye la aplicación"""
@@ -39,12 +50,44 @@ class MainApp(MDApp):
         # Establecer la pantalla de bienvenida como inicial
         sm.current = 'welcome'
         
+        # Iniciar sesión de analytics
+        self.analytics.start_session()
+        self.analytics.track_event('app_start')
+        
+        # Actualizar último login
+        self.db.update_last_login()
+        
+        print(f"\n✅ Reciclapp iniciada")
+        print(f"👤 Usuario: {self.db.get_user()['name']}")
+        print(f"🪙 Eco-tokens: {self.db.get_eco_tokens()}")
+        print(f"🔥 Racha: {self.db.get_streak()} días\n")
+        
         return sm
     
     def switch_screen(self, screen_name):
         """Cambia entre pantallas"""
         self.root.current = screen_name
+        # Track la navegación
+        self.analytics.track_screen_view(screen_name)
+    
+    def on_stop(self):
+        """Llamado cuando la app se cierra"""
+        # Finalizar sesión de analytics
+        self.analytics.end_session()
+        
+        # Mostrar reporte de métricas
+        print("\n" + "="*50)
+        print("📊 Resumen de la sesión:")
+        duration = self.analytics.get_session_duration()
+        if duration:
+            print(f"⏱️  Duración: {duration:.2f}s ({duration/60:.2f} min)")
+        print(f"🪙 Eco-tokens finales: {self.db.get_eco_tokens()}")
+        print(f"♻️  Items reciclados: {self.db.get_total_items_recycled()}")
+        print("="*50 + "\n")
+        
+        return super().on_stop()
 
 
 if __name__ == '__main__':
     MainApp().run()
+
